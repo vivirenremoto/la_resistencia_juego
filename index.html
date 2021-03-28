@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>La Resistencia Juego</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+
+
+    <link rel="prefetch" href="static/music3.mp3" />
+    <link rel="prefetch" href="static/star2.mp3" />
+    <link rel="prefetch" href="static/broncano.gif" />
+    <link rel="prefetch" href="static/police.png" />
+
+
+
+    <meta property="og:image" content="https://vivirenremoto.github.io/la_resistencia_juego/static/social.png">
+    <meta property="og:image:secure_url"
+        content="https://vivirenremoto.github.io/la_resistencia_juego/static/social.png">
+    <meta property="og:image:alt" content="La Resistencia Juego">
+    <meta property="og:image:type" content="image/png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="La Resistencia Juegon">
+    <meta name="twitter:image" content="https://vivirenremoto.github.io/la_resistencia_juego/static/social.png">
+
+
+</head>
+
+<body>
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <style>
+        * {
+            font-family: 'VT323', monospace;
+            text-transform: uppercase;
+
+            -webkit-touch-callout: none;
+            /* iOS Safari */
+            -webkit-user-select: none;
+            /* Safari */
+            -khtml-user-select: none;
+            /* Konqueror HTML */
+            -moz-user-select: none;
+            /* Old versions of Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+            user-select: none;
+            /* Non-prefixed version, currently
+                supported by Chrome, Edge, Opera and Firefox */
+
+            /* evitar elementos seleccionados al clicar */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            touch-action: pan-x pan-y;
+            background: black;
+            overflow-x: hidden;
+            font-size: 70px;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 65px;
+        }
+
+        h3 {
+            margin: 0;
+        }
+
+        button {
+            border: 5px black solid;
+            color: black;
+            background: white;
+            padding: 5px 30px;
+            display: inline-block;
+            font-size: 30px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+
+        /* intro */
+
+        #intro {
+            background: #000 url('static/intro.jpg');
+            background-size: auto 100%;
+            background-position: top center;
+            background-repeat: no-repeat;
+            color: yellow;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            text-align: center;
+        }
+
+        #intro div {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-left: -137px;
+            margin-top: -170px;
+        }
+
+        h1,
+        h2 {
+            text-shadow: 4px 4px 4px rgba(0, 0, 0, 1);
+            font-size: 60px;
+            font-weight: normal;
+        }
+
+
+        #intro button {
+            margin-top: 50px;
+        }
+
+
+        /* game */
+
+        #btn_left {
+            left: 0;
+            bottom: 0;
+            margin-bottom: -30px;
+        }
+
+        #btn_right {
+            right: 0;
+            bottom: 0;
+            margin-bottom: -30px;
+        }
+
+        .btn_control {
+            display: none;
+            font-size: 80px;
+            color: white;
+            cursor: pointer;
+            position: fixed;
+            z-index: 3;
+        }
+
+
+
+
+
+        /* result */
+
+        #result {
+            color: white;
+            text-align: center;
+            background: black;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: none;
+            padding: 20px;
+        }
+
+        #result h2 {
+            color: #00ff00;
+            margin: 0;
+            font-size: 86px;
+            line-height: 87px;
+            margin-bottom: 20px;
+        }
+
+
+
+        .shake {
+            animation: shake 0.5s;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translate(1px, 1px) rotate(0deg);
+            }
+
+            10% {
+                transform: translate(-1px, -2px) rotate(-1deg);
+            }
+
+            20% {
+                transform: translate(-3px, 0px) rotate(1deg);
+            }
+
+            30% {
+                transform: translate(3px, 2px) rotate(0deg);
+            }
+
+            40% {
+                transform: translate(1px, -1px) rotate(1deg);
+            }
+
+            50% {
+                transform: translate(-1px, 2px) rotate(-1deg);
+            }
+
+            60% {
+                transform: translate(-3px, 1px) rotate(0deg);
+            }
+
+            70% {
+                transform: translate(3px, 1px) rotate(-1deg);
+            }
+
+            80% {
+                transform: translate(-1px, -1px) rotate(1deg);
+            }
+
+            90% {
+                transform: translate(1px, 2px) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(1px, -2px) rotate(-1deg);
+            }
+        }
+
+
+
+
+        @media screen and (max-width: 480px) {
+
+            body {
+                font-size: 20px;
+            }
+
+            button {
+                font-size: 40px;
+            }
+
+            h3 {
+                font-size: 30px;
+            }
+
+            .btn_control {
+                font-size: 100px;
+                display: block;
+            }
+
+            /* intro */
+
+            #intro {
+                background: #000 url('static/intro.jpg');
+                background-size: cover;
+                background-position: inherit;
+            }
+
+            h1,
+            h2 {
+                font-size: 60px;
+            }
+
+
+            #intro div {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                margin-left: -140px;
+                margin-top: -120px;
+            }
+
+            /* result */
+
+            #result {
+                max-width: 100%;
+            }
+
+            #result button {
+                margin-top: 20px;
+            }
+        }
+    </style>
+
+
+    <div id="intro">
+
+        <a href="https://twitter.com/vivirenremoto" target="_blank"
+            style="font-size:30px;position:fixed;right:10px;top:10px;z-index:2;color:white;text-decoration:none;">by
+            @vivirenremoto</a>
+
+        <div>
+            <h1 style="margin-bottom:0">LA RESISTENCIA</h1>
+            <h2>THE GAME</h2>
+            <button id="btn_start">START</button>
+        </div>
+
+    </div>
+
+
+
+    <div id="game" style="display:none;background:black url('static/floor.jpg');position:fixed;left:0;right:0;top:0;bottom:0;background-size:100%
+        auto;background-position-y:0;">
+
+
+        <!--
+        <div style="z-index:3;position:fixed;left:0;right:0;top:0;text-align:center;font-size:40px;">
+
+            <span style="display:inline-block;color:white;background:red;">ON AIR</span>
+
+        </div>
+-->
+
+
+        <div id="time"
+            style="z-index:3;color:#ff0000;position:fixed;left:0;right:0;top:0;text-align:center;font-size:80px;">
+            1:00</div>
+
+        <div style="z-index:3;background:url('static/broncano.gif');background-size:100% auto;width:100px;height:160px;position:fixed;top:25%;background-position:center top;"
+            id="rocket">
+
+        </div>
+
+        <div id="fuel_bar"
+            style="z-index:3;font-size:40px;bottom:0;position:fixed;left:0;width:100%;text-align:center;color:white;">
+
+
+
+            <span id="fuel">ESQUIVA LA POLICÍA</span>
+
+
+        </div>
+
+
+        <div id="clouds"
+            style="display:none;opacity:0.3;z-index:2;position:fixed;width:100%;height:100%;left:0;top:0;background: url('static/clouds.png');background-size:600px auto;">
+        </div>
+
+
+
+        <div id="coin1" class="coins"
+            style="z-index:1;background:url('static/police.png');width:200px;height:200px;position:fixed;background-size:contain;background-position:center center;background-repeat:no-repeat;">
+        </div>
+
+
+        <div id="coin2" class="coins"
+            style="display:none;z-index:1;background:url('static/police.png');width:200px;height:200px;position:fixed;background-size:contain;background-position:center center;background-repeat:no-repeat;">
+        </div>
+
+
+        <div id="coin3" class="coins"
+            style="display:none;z-index:1;background:url('static/police.png');width:200px;height:200px;position:fixed;background-size:contain;background-position:center center;background-repeat:no-repeat;">
+        </div>
+
+
+        <div id="star"
+            style="display:none;z-index:1;background:url('static/star.png');width:100px;height:100px;position:fixed;background-size:contain;background-position:center center;background-repeat:no-repeat;">
+        </div>
+
+
+        <div id="angel"
+            style="display:none;z-index:2;background:url('static/angel.png');width:200px;height:225px;position:fixed;background-size:contain;background-position:center center;background-repeat:no-repeat;">
+        </div>
+
+
+
+        <div
+            style="position:fixed;left:33%;right:100%;opacity:0.35;border:1px white dashed;border-width:0 2px;top:0;bottom:0">
+        </div>
+
+
+        <div
+            style="position:fixed;width:33%;right:0;opacity:0.35;border:1px white dashed;border-width:0 2px;top:0;bottom:0">
+        </div>
+
+
+        <div id="btn_left" class="btn_control">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-square-fill" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm9.5 8.5a.5.5 0 0 0 0-1H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5z" />
+            </svg>
+        </div>
+
+        <div id="btn_right" class="btn_control">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-square-fill" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm2.5 8.5a.5.5 0 0 1 0-1h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5z" />
+            </svg>
+        </div>
+
+    </div>
+
+
+
+    <div id="result">
+        <h1 id="result_title">GAME OVER</h2>
+
+
+            <img src="static/blank.png" id="result_photo" style="max-width:100%">
+
+            <br>
+
+            <button onclick="location.reload();">¿REPETIR?</button>
+            <button onclick="share()">COMPARTIR</button>
+
+            <button onclick="window.open('https://www.buymeacoffee.com/vivirenremoto')">APOYAME</button>
+
+
+
+    </div>
+
+
+
+    <audio id="bg_music1" loop>
+        <source src="static/music3.mp3" type="audio/mp3">
+    </audio>
+
+    <audio id="sound_star">
+        <source src="static/star2.mp3" type="audio/mp3">
+    </audio>
+
+    <script>
+        var music_playing1 = false;
+        var time_left = 60;
+        var timer_time;
+
+        var won;
+
+        var music1 = document.getElementById('bg_music1');
+        music1.volume = 0.5;
+
+        var sound_star = document.getElementById('sound_star');
+
+
+
+
+        var screen_height = $(document).height();
+        var screen_width = $(document).width();
+        var screen_width_half = screen_width / 2;
+
+
+        var round = 1;
+        var score = 0;
+        var score_format;
+        var ways = 3;
+        var fuel = 100;
+        var rocket_col = 2;
+        var coin_col1 = 1;
+        var coin_col2 = 2;
+        var coin_col3 = 3;
+        var star_col = 1;
+        var is_star = false;
+        var way_width = screen_width / ways;
+        var rocket_width = $('#rocket').width();
+        var coin_width = $('#coin1').width();
+        var coin_height = $('#coin1').height();
+        var rocket_width = $('#rocket').width();
+        var rocket_height = $('#rocket').height();
+        var star_width = $('#star').width();
+        var star_height = $('#star').height();
+
+        var coin_x1 = 0;
+        var coin_x2 = 0;
+        var coin_x3 = 0;
+        var star_x = 0;
+        var coin_y1 = 0;
+        var coin_y2 = 0;
+        var coin_y3 = 0;
+        var star_y = 0;
+        var rocket_x = 0;
+        var rocket_y = 0;
+        var fuel_timer;
+        var timer_coin1;
+        var timer_coin2;
+        var timer_coin3;
+        var timer_star;
+
+
+
+
+        $('#btn_start').click(function () {
+
+
+
+            startGame();
+
+
+        });
+
+
+
+        function format_time(time) {
+            // Hours, minutes and seconds
+            var hrs = ~~(time / 3600);
+            var mins = ~~((time % 3600) / 60);
+            var secs = ~~time % 60;
+
+            // Output like "1:01" or "4:03:59" or "123:03:59"
+            var ret = "";
+            if (hrs > 0) {
+                ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+            }
+            ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+            ret += "" + secs;
+            return ret;
+        }
+
+        function updateTime() {
+
+            $('#time').html(format_time(time_left));//+ '--' + round);
+
+            timer_time = setInterval(function () {
+
+                time_left--;
+
+
+                if (time_left == 0) {
+                    won = true;
+
+                    endGame();
+                }
+
+
+                $('#time').html(format_time(time_left));// + '--' + round);
+            }, 1000);
+        }
+
+
+        function randomNumber(min, max) {
+            if (min > max) {
+                let temp = max;
+                max = min;
+                min = temp;
+            }
+
+            if (min <= 0) {
+                return Math.floor(Math.random() * (max + Math.abs(min) + 1)) + min;
+            } else {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+        }
+
+        function startGame() {
+
+            $('#intro').hide();
+            $('#game').show();
+
+            updateTime();
+
+            updateCar();
+
+
+
+            setInterval(function () {
+                var top = parseInt(jQuery('#game').css('background-position-y'));
+                top += 3;
+                jQuery('#game').css('background-position-y', top);
+            }, 1);
+
+
+
+
+            rocket_y = 150;
+            $('#rocket').css('top', rocket_y + 'px');
+            $('#angel').css('top', (rocket_y - 100) + 'px');
+
+
+            coin_x1 = (way_width * (coin_col1 - 1)) + ((way_width - coin_width) / 2);
+            $('#coin1').css('left', coin_x1 + 'px').css('top', screen_height + star_height);
+
+
+            coin_x2 = (way_width * (coin_col2 - 1)) + ((way_width - coin_width) / 2);
+            $('#coin2').css('left', coin_x2 + 'px').css('top', screen_height + star_height);
+
+
+            coin_x3 = (way_width * (coin_col3 - 1)) + ((way_width - coin_width) / 2);
+            $('#coin3').css('left', coin_x3 + 'px').css('top', screen_height + star_height);
+
+
+            star_x = (way_width * (star_col - 1)) + ((way_width - star_width) / 2);
+            $('#star').css('left', star_x + 'px').css('top', screen_height);
+
+
+
+            if (round == 3) {
+                $('#coin2').show();
+                $('#coin3').show();
+                $('#star').show();
+            }
+
+
+
+            timer_coin1 = setInterval(function () {
+
+
+
+
+                coin_y1 = parseInt($('#coin1').css('top'));
+                rocket_bottom = rocket_y + rocket_height;
+
+
+                coin_y1--;
+
+                if (coin_y1 < (coin_height * -1)) {
+
+                    coin_y1 = screen_height + star_height;
+
+                    //coin_col1 = randomNumber(1, ways);
+
+                    if (round == 2) {
+                        $('#coin2').show();
+                    } else if (round == 3) {
+                        $('#coin3').show();
+                    }
+
+
+
+
+                    if (round >= 3) {
+                        var rand = randomNumber(1, 4);
+
+                        if (rand >= 3) {
+                            $('#star').show();
+                            $('#coin2').show();
+                            $('#coin3').show();
+                        } else if (rand == 1) {
+                            var rand2 = randomNumber(1, ways);
+
+                            $('#star').hide();
+                            $('.coins').hide();
+
+
+                            $('#coin' + rand2).show();
+
+                        } else if (rand == 2) {
+
+                            $('#star').hide();
+                            $('.coins').hide();
+
+
+                            $('#coin1').show();
+
+                            $('#coin3').show();
+
+                        }
+
+                    }
+
+
+                    coin_x1 = (way_width * (coin_col1 - 1)) + ((way_width - coin_width) / 2);
+                    $('#coin1').css('left', coin_x1 + 'px');
+
+                }
+
+
+
+
+                if ($('#coin1:visible').length && !is_star && coin_y1 == rocket_bottom && coin_col1 == rocket_col) {
+
+                    won = false;
+
+
+                    endGame();
+
+
+
+
+                }
+
+
+                $('#coin1').css('top', coin_y1 + 'px');
+
+
+
+            }, 1);
+
+
+            /////////
+
+
+
+
+
+            timer_coin2 = setInterval(function () {
+
+
+
+
+
+
+                coin_y2 = parseInt($('#coin2').css('top'));
+                rocket_bottom = rocket_y + rocket_height;
+
+
+                coin_y2--;
+
+                if (coin_y2 < (coin_height * -1)) {
+                    coin_y2 = screen_height + star_height;
+
+                    //coin_col2 = randomNumber(1, ways);
+
+
+
+                    coin_x2 = (way_width * (coin_col2 - 1)) + ((way_width - coin_width) / 2);
+                    $('#coin2').css('left', coin_x2 + 'px');
+
+                }
+
+
+
+
+                if ($('#coin2:visible').length && !is_star && coin_y2 == rocket_bottom && coin_col2 == rocket_col) {
+
+                    won = false;
+
+
+                    endGame();
+
+
+
+
+                }
+
+
+                $('#coin2').css('top', coin_y2 + 'px');
+
+
+
+            }, 1);
+
+
+
+            /////////
+
+
+
+
+
+            timer_coin3 = setInterval(function () {
+
+
+
+
+
+
+                coin_y3 = parseInt($('#coin3').css('top'));
+                rocket_bottom = rocket_y + rocket_height;
+
+
+                coin_y3--;
+
+                if (coin_y3 < (coin_height * -1)) {
+                    coin_y3 = screen_height + star_height;
+
+                    //coin_col3 = randomNumber(1, ways);
+
+
+
+                    coin_x3 = (way_width * (coin_col3 - 1)) + ((way_width - coin_width) / 2);
+                    $('#coin3').css('left', coin_x3 + 'px');
+
+                }
+
+
+
+
+                if ($('#coin3:visible').length && !is_star && coin_y3 == rocket_bottom && coin_col3 == rocket_col) {
+
+                    won = false;
+
+
+                    endGame();
+
+
+
+
+                }
+
+
+                $('#coin3 ').css('top', coin_y3 + 'px');
+
+
+
+            }, 1);
+
+
+
+
+
+            /////////
+
+
+
+
+
+            timer_star = setInterval(function () {
+
+
+
+
+
+
+                star_y = parseInt($('#star').css('top'));
+                rocket_bottom = rocket_y + rocket_height;
+
+
+                star_y--;
+
+                if (star_y < (coin_height * -1)) {
+
+
+                    round++;
+
+                    is_star = false;
+
+
+                    star_y = screen_height + star_height;
+
+                    star_col = randomNumber(1, ways);
+
+                    if (round >= 3) {
+                        $('#star').show();
+                    }
+
+                    star_x = (way_width * (star_col - 1)) + ((way_width - star_width) / 2);
+                    $('#star').css('left', star_x + 'px');
+
+                }
+
+
+
+
+                if ($('#star:visible').length && star_y == rocket_bottom && star_col == rocket_col) {
+
+                    //won = false;
+
+
+
+                    is_star = true;
+                    sound_star.play();
+
+                    $('#angel').show().css('top', screen_height).animate({
+                        top: rocket_y - 100
+                    }, 500, function () {
+
+
+
+                        $('#rocket').addClass('shake');
+                        $('#clouds').fadeIn('fast');
+                        $('#star').hide();
+
+                        $('.coins').animate({ width: 100, height: 100, marginLeft: 50 });
+
+                        //endGame();
+
+
+                        music1.volume = 0.2;
+
+
+
+                        setTimeout(function () {
+
+                            music1.volume = 0.5;
+                            $('#clouds').fadeOut('fast');
+                            $('#angel').fadeOut('fast');
+                            $('#rocket').removeClass('shake');
+
+                            $('.coins').animate({ width: 200, height: 200, marginLeft: 0 });
+
+                        }, 1500);
+
+
+
+                    });
+
+
+
+
+
+
+                }
+
+
+                $('#star ').css('top', star_y + 'px');
+
+
+
+            }, 1);
+
+
+
+
+        }
+
+
+        $('#btn_left').click(function () {
+            moveLeft();
+
+        });
+
+        $('#btn_right').click(function () {
+            moveRight();
+        });
+
+        function moveLeft() {
+            if (rocket_col > 1) {
+                rocket_col--;
+            }
+            updateCar();
+        }
+
+
+        function moveRight() {
+            if (rocket_col < ways) {
+                rocket_col++;
+            }
+            updateCar();
+        }
+
+
+        function updateCar() {
+            rocket_x = (way_width * (rocket_col - 1)) + ((way_width - rocket_width) / 2);
+            $('#rocket').css('left', rocket_x + 'px');
+
+
+            $('#angel').css('left', rocket_x + 'px');
+
+        }
+
+
+        function endGame() {
+            clearInterval(timer_time);
+            clearInterval(timer_coin1);
+            clearInterval(timer_coin2);
+            clearInterval(timer_coin3);
+            clearInterval(timer_star);
+
+            $('#intro').hide();
+            $('#game').hide();
+            $('#result').show();
+
+
+
+            var result_photo;
+            var result_title;
+            var result_color;
+
+            if (won) {
+                result_title = 'BRONCANO HA LLEGADO A TIEMPO';
+                result_photo = 'won.gif';
+                result_color = '#00ff00';
+            } else {
+                result_title = 'EL PROGRAMA DE HOY SE HA CANCELADO';
+                result_photo = 'lost.jpg';
+                result_color = '#ff0000';
+            }
+
+            $('#result_title').html(result_title).css('color', result_color);
+            $('#result_photo').attr('src', 'static/' + result_photo);
+        }
+
+
+
+        function share() {
+            window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + '&tw_p=tweetbutton&url=' + document.location.href);
+
+        }
+
+
+
+
+        function playMusic1() {
+            if (!music_playing1) {
+                music_playing1 = true;
+                music1.play();
+            }
+        }
+
+
+        ////////////////
+
+
+        $(function () {
+
+            $("body").click(function (e) {
+                playMusic1();
+
+
+                if (e.pageX < screen_width_half) {
+                    moveLeft();
+                } else {
+                    moveRight();
+                }
+
+            });
+
+            $("body").keydown(function (e) {
+                if (e.keyCode == 37) {
+                    moveLeft();
+                } else if (e.keyCode == 39) {
+                    moveRight();
+                }
+            });
+
+
+
+
+
+        });
+
+
+
+        /////////////////////////////////////////
+
+        startGame();
+
+    </script>
+
+
+</body>
+
+</html>
