@@ -14,6 +14,8 @@
 
     <link rel="prefetch" href="static/music3.mp3" />
     <link rel="prefetch" href="static/star2.mp3" />
+    <link rel="prefetch" href="static/money.mp3" />
+    <link rel="prefetch" href="static/espin.mp3" />
     <link rel="prefetch" href="static/broncano5.gif" />
     <link rel="prefetch" href="static/police.png" />
     <link rel="prefetch" href="static/clouds.png" />
@@ -495,6 +497,14 @@
 
     <audio id="sound_star">
         <source src="static/star2.mp3" type="audio/mp3">
+    </audio>
+
+    <audio id="sound_money">
+        <source src="static/money.mp3" type="audio/mp3">
+    </audio>
+
+    <audio id="sound_espin">
+        <source src="static/espin.mp3" type="audio/mp3">
     </audio>
 
     <script>
@@ -1110,6 +1120,9 @@
                 }, 2000);
 
 
+                sound_money.play();
+
+
             } else if (!is_espin && $(obj).hasClass('espin')) {
                 is_espin = true;
 
@@ -1119,6 +1132,8 @@
                 $('#fuel').html('CONTROLES INVERSOS').css('color', '#00ff00');
 
                 $('.espin').hide();
+
+                sound_espin.play();
 
 
             }
