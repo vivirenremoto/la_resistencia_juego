@@ -272,13 +272,16 @@
             animation: border-dance 0.5s infinite linear;
         }
 
-        @keyframes border-dance {
-            0% {
-                background-position: 0 0, 0 0, 0 0, 100% 0;
-            }
+        @media screen and (min-width: 480px) {
 
-            100% {
-                background-position: 0 0, 0 0, 0 -200px, 100% -200px;
+            @keyframes border-dance {
+                0% {
+                    background-position: 0 0, 0 0, 0 0, 100% 0;
+                }
+
+                100% {
+                    background-position: 0 0, 0 0, 0 -200px, 100% -200px;
+                }
             }
         }
 
@@ -354,6 +357,19 @@
             #result button {
                 margin-top: 20px;
             }
+
+
+            @keyframes border-dance {
+                0% {
+                    background-position: 0 0, 0 0, 0 0, 100% 0;
+                }
+
+                100% {
+                    background-position: 0 0, 0 0, 0 -160px, 100% -160px;
+                }
+            }
+
+
         }
     </style>
 
@@ -382,7 +398,7 @@
             <span style="display:inline-block;color:white;background:red;">ON AIR</span>
 
         </div>
--->
+        -->
 
 
         <div id="time"
@@ -565,7 +581,7 @@
         var coin_y3 = 0;
         var star_y = 0;
         var rocket_x = 0;
-        var rocket_y = 0;
+        var rocket_y = 300;
         var fuel_timer;
         var timer_coin1;
         var timer_star;
@@ -573,6 +589,13 @@
         var diff_star = 20;
         var diff_car = 10;
 
+
+   
+        if( is_mobile ){
+
+            speed = 1;
+            rocket_y = 150;
+        }
 
 
 
@@ -702,7 +725,7 @@
 
 
 
-            rocket_y = is_mobile ? 150 : 300;
+            
 
             $('#rocket').css('top', rocket_y + 'px');
             $('#angel').css('top', (rocket_y - 100) + 'px');
