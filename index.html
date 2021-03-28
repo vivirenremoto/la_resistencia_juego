@@ -162,10 +162,29 @@
             filter: drop-shadow(1px 1px 10px #00ff00);
         }
 
-        .coins {
-
+        .car {
             animation: alarm 1s;
             animation-iteration-count: infinite;
+
+        }
+
+        .star {
+            background: url('static/star.png');
+        }
+
+        .moto {
+            background: red !important;
+            /*border: 1px yellow solid;*/
+        }
+
+        .espin {
+            background: url('static/limon.png') !important;
+            background-repeat: no-repeat !important;
+            background-position: center center !important;
+            background-size: 50% auto !important;
+            /*border: 1px red solid;
+            -webkit-filter: drop-shadow(1px 1px 5px yellow);
+            filter: drop-shadow(1px 1px 5px yellow);*/
         }
 
         @keyframes alarm {
@@ -218,6 +237,9 @@
             background: black url('static/floor.jpg');
         }
 
+        .coins {
+            background: url('static/police.png');
+        }
 
         .cara_normal {
             background: url('static/cara1a.png');
@@ -229,13 +251,19 @@
             background: url('static/cara2a.png');
         }
 
+        .cara_espin {
+            background: url('static/espin2.png');
+            height: 160px !important;
+            margin-top: -60px !important;
+        }
+
 
         .border {
             background: linear-gradient(90deg, white 50%, transparent 50%), linear-gradient(90deg, white 50%, transparent 50%), linear-gradient(0deg, white 50%, transparent 50%), linear-gradient(0deg, white 50%, transparent 50%);
             background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
             background-size: 0 0, 0 0, 10px 40px, 10px 40px;
             padding: 10px;
-            animation: border-dance 1s infinite linear;
+            animation: border-dance 0.5s infinite linear;
         }
 
         @keyframes border-dance {
@@ -382,23 +410,23 @@
 
 
 
-        <div id="coin1" class="coins"
-            style="z-index:1;background:url('static/police.png');width:200px;height:200px;position:fixed;background-size:contain;background-position:center center;background-repeat:no-repeat;">
+        <div id="coin1" class="coins car"
+            style="z-index:1;width:200px;height:200px;position:fixed;background-size:contain;background-position:center center;background-repeat:no-repeat;">
         </div>
 
 
-        <div id="coin2" class="coins"
-            style="display:none;z-index:1;background:url('static/police.png');width:200px;height:200px;position:fixed;background-size:contain;background-position:center center;background-repeat:no-repeat;">
+        <div id="coin2" class="coins car"
+            style="display:none;z-index:1;width:200px;height:200px;position:fixed;background-size:contain;background-position:center center;background-repeat:no-repeat;">
         </div>
 
 
-        <div id="coin3" class="coins"
-            style="display:none;z-index:1;background:url('static/police.png');width:200px;height:200px;position:fixed;background-size:contain;background-position:center center;background-repeat:no-repeat;">
+        <div id="coin3" class="coins car"
+            style="display:none;z-index:1;width:200px;height:200px;position:fixed;background-size:contain;background-position:center center;background-repeat:no-repeat;">
         </div>
 
 
-        <div id="star"
-            style="display:none;z-index:1;background:url('static/star.png');width:100px;height:100px;position:fixed;background-size:contain;background-position:center center;background-repeat:no-repeat;">
+        <div id="star" class="star"
+            style="display:none;z-index:1;width:100px;height:100px;position:fixed;background-size:contain;background-position:center center;background-repeat:no-repeat;">
         </div>
 
 
@@ -470,7 +498,7 @@
         var time_left = 60;
         var timer_time;
 
-        var won;
+        var won = true;
 
         var music1 = document.getElementById('bg_music1');
         music1.volume = 0.5;
@@ -483,19 +511,28 @@
         var screen_height = $(document).height();
         var screen_width = $(document).width();
         var screen_width_half = screen_width / 2;
+        var is_mobile = screen_width < 500;
 
+        var is_test = document.location.href.indexOf('?test') > -1;
 
         var round = 1;
+
+        if (is_test) {
+            round = 3;
+        }
+
         var score = 0;
         var score_format;
         var ways = 3;
         var fuel = 100;
         var rocket_col = 2;
-        var coin_col1 = 1;
-        var coin_col2 = 2;
+        var coin_col1 = 2;
+        var coin_col2 = 1;
         var coin_col3 = 3;
         var star_col = 2;
         var is_star = false;
+        var is_espin = false;
+        var is_moto = false;
         var way_width = screen_width / ways;
         var rocket_width = $('#rocket').width();
         var coin_width = $('#coin1').width();
@@ -518,6 +555,9 @@
         var fuel_timer;
         var timer_coin1;
         var timer_star;
+        var speed = 1.5;
+        var diff_star = 20;
+        var diff_car = 10;
 
 
 
@@ -551,8 +591,11 @@
 
         function updateTime() {
 
+            var formatted_time = format_time(time_left);
 
-            $('#time').html(format_time(time_left));//+ '--' + round);
+            if (is_test) formatted_time += '--' + round
+
+            $('#time').html(formatted_time);
 
 
 
@@ -569,7 +612,13 @@
                 }
 
 
-                $('#time').html(format_time(time_left));// + '--' + round);
+                var formatted_time = format_time(time_left);
+
+                if (is_test) formatted_time += '--' + round
+
+                $('#time').html(formatted_time);
+
+
             }, 1000);
         }
 
@@ -588,6 +637,30 @@
             }
         }
 
+        function shuffle(array) {
+            var currentIndex = array.length, temporaryValue, randomIndex;
+
+            // While there remain elements to shuffle...
+            while (0 !== currentIndex) {
+
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+
+                // And swap it with the current element.
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+
+            return array;
+        }
+
+
+        function betweenDiff(value1, value2, diff) {
+            return ((value1 <= (value2 + diff)) && (value1 >= (value2 - diff)));
+        }
+
         function startGame() {
 
             $('#intro').hide();
@@ -601,7 +674,7 @@
 
             setInterval(function () {
                 var top = parseInt(jQuery('#game').css('background-position-y'));
-                top -= 1;
+                top -= 3;//1;
                 jQuery('#game').css('background-position-y', top);
             }, 1);
 
@@ -615,7 +688,8 @@
 
 
 
-            rocket_y = 150;
+            rocket_y = is_mobile ? 150 : 300;
+
             $('#rocket').css('top', rocket_y + 'px');
             $('#angel').css('top', (rocket_y - 100) + 'px');
 
@@ -638,9 +712,7 @@
 
 
             if (round == 3) {
-                $('#coin1').show();
-                $('#coin2').show();
-                $('#coin3').show();
+                $('.coins').show();
                 $('#star').show();
             }
 
@@ -655,7 +727,7 @@
                 rocket_bottom = rocket_y + rocket_height;
 
 
-                coin_y1--;
+                coin_y1 -= speed;
 
                 if (coin_y1 < (coin_height * -1)) {
 
@@ -670,17 +742,65 @@
                     }
 
 
+                    if (round == 5) {
+
+
+                        $('.coins').addClass('car');
+
+                        $('.moto').removeClass('moto');
+                        $('.espin').removeClass('espin');
+                    }
+
+
 
 
                     if (round >= 3) {
-                        var rand = randomNumber(1, 4);
+                        var rand = randomNumber(1, 3);
 
-                        if (rand >= 3) {
-                            $('#star').show();
-                            $('#coin1').show();
-                            $('#coin2').show();
-                            $('#coin3').show();
-                        } else if (rand == 1) {
+
+
+
+
+                        if (round == 4) {
+                            rand = 3;
+                        }
+
+
+                        if (rand >= 2) {
+
+
+
+                            $('#star').hide();
+                            $('.coins').hide();
+
+
+                            var rand_cols = [1, 2, 3];
+                            rand_cols = shuffle(rand_cols);
+
+
+
+
+
+
+                            $('#coin' + rand_cols[0]).show();
+                            $('#coin' + rand_cols[1]).show();
+
+
+                            if (round == 4) {
+                                //var rand_cols = [1, 2, 3];
+                                //rand_cols = shuffle(rand_cols);
+
+
+                                $('.coins').removeClass('car');
+                                $('#coin' + rand_cols[0]).addClass('moto');
+                                $('#coin' + rand_cols[1]).addClass('espin');
+
+                            }
+
+
+
+
+                        } /*else if (rand == 1) {
                             var rand2 = randomNumber(1, ways);
 
                             $('#star').hide();
@@ -689,15 +809,9 @@
 
                             $('#coin' + rand2).show();
 
-                        } else if (rand == 2) {
-
-                            $('#star').hide();
-                            $('.coins').hide();
-
-
-                            $('#coin1').show();
-
-                            $('#coin3').show();
+                        }*/ else if (rand == 1) {
+                            $('#star').show();
+                            $('.coins').show();
 
                         }
 
@@ -712,20 +826,19 @@
 
 
 
-                if ($('#coin1:visible').length && !is_star && coin_y1 == rocket_bottom && coin_col1 == rocket_col) {
-
-                    won = false;
+                if ($('#coin1:visible').length && won && !is_star && !is_moto && coin_col1 == rocket_col && betweenDiff(rocket_bottom, coin_y1, diff_car)) {
 
 
-                    endGame();
 
+
+                    checkItem($('#coin1'));
 
 
 
                 }
 
 
-                $('#coin1').css('top', coin_y1 + 'px');
+                //$('#coin1').css('top', coin_y1 + 'px');
 
 
                 //////////////////////////////////////
@@ -734,14 +847,16 @@
 
 
 
+                coin_y2 = coin_y1;
+                coin_y3 = coin_y1;
 
 
 
-                coin_y2 = parseInt($('#coin2').css('top'));
-                rocket_bottom = rocket_y + rocket_height;
+                //coin_y2 = parseInt($('#coin2').css('top'));
+                //rocket_bottom = rocket_y + rocket_height;
 
 
-                coin_y2--;
+                //coin_y2 -= speed;
 
                 if (coin_y2 < (coin_height * -1)) {
                     coin_y2 = screen_height + star_height;
@@ -758,12 +873,10 @@
 
 
 
-                if ($('#coin2:visible').length && !is_star && coin_y2 == rocket_bottom && coin_col2 == rocket_col) {
-
-                    won = false;
+                if ($('#coin2:visible').length && won && !is_star && !is_moto && coin_col2 == rocket_col && betweenDiff(rocket_bottom, coin_y2, diff_car)) {
 
 
-                    endGame();
+                    checkItem($('#coin2'));
 
 
 
@@ -771,7 +884,7 @@
                 }
 
 
-                $('#coin2').css('top', coin_y2 + 'px');
+                //$('#coin2').css('top', coin_y2 + 'px');
 
 
                 /////////////////////////
@@ -779,11 +892,11 @@
 
 
 
-                coin_y3 = parseInt($('#coin3').css('top'));
-                rocket_bottom = rocket_y + rocket_height;
+                //coin_y3 = parseInt($('#coin3').css('top'));
+                //rocket_bottom = rocket_y + rocket_height;
 
 
-                coin_y3--;
+                //coin_y3 -= speed;
 
                 if (coin_y3 < (coin_height * -1)) {
                     coin_y3 = screen_height + star_height;
@@ -800,21 +913,19 @@
 
 
 
-                if ($('#coin3:visible').length && !is_star && coin_y3 == rocket_bottom && coin_col3 == rocket_col) {
-
-                    won = false;
+                if ($('#coin3:visible').length && won && !is_star && !is_moto && coin_col3 == rocket_col && betweenDiff(rocket_bottom, coin_y3, diff_car)) {
 
 
-                    endGame();
-
+                    checkItem($('#coin3'));
 
 
 
                 }
 
 
-                $('#coin3 ').css('top', coin_y3 + 'px');
+                //$('#coin3 ').css('top', coin_y3 + 'px');
 
+                $('.coins').css('top', coin_y3 + 'px');
 
 
 
@@ -841,7 +952,7 @@
                 rocket_bottom = rocket_y + rocket_height;
 
 
-                star_y--;
+                star_y -= speed;
 
                 if (star_y < (coin_height * -1)) {
 
@@ -849,6 +960,8 @@
                     round++;
 
                     is_star = false;
+                    //is_espin = false;
+                    is_moto = false;
 
 
                     star_y = screen_height + star_height;
@@ -867,16 +980,23 @@
 
 
 
-                if (!is_star && $('#star:visible').length && star_y == rocket_bottom && star_col == rocket_col) {
 
-                    //won = false;
-
+                if (!is_star && !is_moto && $('#star:visible').length && won && star_col == rocket_col && betweenDiff(rocket_bottom, star_y, diff_star)) {
 
 
 
+
+                    is_espin = false;
                     is_star = true;
                     sound_star.play();
 
+                    $('#fuel').html('ESQUIVA LA POLICÍA').css('color', '#fff');
+
+
+                    $('#star').hide();
+
+
+                    $('#cara').removeClass('cara_espin').addClass('cara_normal');
 
 
 
@@ -886,14 +1006,12 @@
                         $('#way2').animate({ opacity: 0.1 }, 500);
 
 
-                        $('#cara').removeClass('cara_normal').addClass('cara_flipado');
-                        //$('#rocket').addClass('shake');
+                        $('#cara').removeClass('cara_normal').removeClass('cara_espin').addClass('cara_flipado');
+
                         $('#clouds').fadeIn('fast');
-                        $('#star').hide();
 
                         $('.coins').animate({ width: 70, height: 70, marginLeft: 80 });
 
-                        //endGame();
 
 
                         music1.volume = 0.2;
@@ -914,7 +1032,7 @@
 
                             $('.coins').animate({ width: 200, height: 200, marginLeft: 0 });
 
-                        }, 1500);
+                        }, 1300);
 
 
 
@@ -941,15 +1059,24 @@
 
 
         $('#btn_left').click(function () {
-            moveLeft();
+            if (!is_espin) {
+                moveLeft();
+            } else {
+                moveRight();
+            }
 
         });
 
         $('#btn_right').click(function () {
-            moveRight();
+            if (!is_espin) {
+                moveRight();
+            } else {
+                moveLeft();
+            }
         });
 
         function moveLeft() {
+            if (is_star) return;
             if (rocket_col > 1) {
                 rocket_col--;
             }
@@ -957,7 +1084,45 @@
         }
 
 
+        function checkItem(obj) {
+
+            if ($(obj).hasClass('car')) {
+                won = false;
+                endGame();
+
+            } else if ($(obj).hasClass('moto')) {
+                is_moto = true;
+                //alert('500€');
+
+
+                $('.moto').hide();
+
+
+
+                $('#fuel').html('500 €').css('color', '#00ff00');
+                setTimeout(function () {
+
+                    $('#fuel').html('ESQUIVA LA POLICÍA').css('color', '#fff');
+                }, 2000);
+
+
+            } else if (!is_espin && $(obj).hasClass('espin')) {
+                is_espin = true;
+
+                $('#cara').removeClass('cara_normal').addClass('cara_espin');
+
+
+                $('#fuel').html('CONTROLES INVERSOS').css('color', '#00ff00');
+
+                $('.espin').hide();
+
+
+            }
+
+        }
+
         function moveRight() {
+            if (is_star) return;
             if (rocket_col < ways) {
                 rocket_col++;
             }
@@ -1043,28 +1208,58 @@
 
 
             $('#way1').click(function () {
-                moveLeft();
+
+                if (!is_espin) {
+                    moveLeft();
+                } else {
+                    moveRight();
+                }
             });
 
             $('#way3').click(function () {
-                moveRight();
+                if (!is_espin) {
+                    moveRight();
+                } else {
+                    moveLeft();
+                }
             });
 
             $('#way2').click(function () {
                 if (rocket_col == 1) {
-                    moveRight();
+
+                    if (!is_espin) {
+                        moveRight();
+                    } else {
+                        moveLeft();
+                    }
 
                 } else if (rocket_col == 3) {
-                    moveLeft();
+
+                    if (!is_espin) {
+                        moveLeft();
+                    } else {
+                        moveRight();
+                    }
 
                 }
             });
 
             $("body").keydown(function (e) {
                 if (e.keyCode == 37) {
-                    moveLeft();
+
+                    if (!is_espin) {
+                        moveLeft();
+                    } else {
+                        moveRight();
+                    }
+
                 } else if (e.keyCode == 39) {
-                    moveRight();
+
+                    if (!is_espin) {
+                        moveRight();
+                    } else {
+                        moveLeft();
+                    }
                 }
             });
 
@@ -1078,7 +1273,9 @@
 
         /////////////////////////////////////////
 
-        //startGame();
+        if (is_test) {
+            startGame();
+        }
 
     </script>
 
