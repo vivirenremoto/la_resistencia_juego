@@ -14,7 +14,7 @@
 
     <link rel="prefetch" href="static/music3.mp3" />
     <link rel="prefetch" href="static/star2.mp3" />
-    <link rel="prefetch" href="static/broncano.gif" />
+    <link rel="prefetch" href="static/broncano5.gif" />
     <link rel="prefetch" href="static/police.png" />
     <link rel="prefetch" href="static/clouds.png" />
 
@@ -95,7 +95,7 @@
         /* intro */
 
         #intro {
-            background: #000 url('static/intro.jpg');
+            background: #000 url('static/intro.png');
             background-size: auto 100%;
             background-position: top center;
             background-repeat: no-repeat;
@@ -110,10 +110,9 @@
 
         #intro div {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            margin-left: -137px;
-            margin-top: -170px;
+            bottom: 20%;
+            width: 100%;
+            left: 0;
         }
 
         h1,
@@ -125,7 +124,9 @@
 
 
         #intro button {
-            margin-top: 50px;
+            border-color: white;
+            color: white;
+            background: black;
         }
 
 
@@ -155,7 +156,39 @@
         }
 
 
+        #angel {
 
+            -webkit-filter: drop-shadow(1px 1px 10px #00ff00);
+            filter: drop-shadow(1px 1px 10px #00ff00);
+        }
+
+        .coins {
+
+            animation: alarm 1s;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes alarm {
+            0% {
+                -webkit-filter: drop-shadow(1px 1px 10px #0000ff);
+                filter: drop-shadow(1px 1px 10px #0000ff);
+            }
+
+            49% {
+                -webkit-filter: drop-shadow(1px 1px 10px #0000ff);
+                filter: drop-shadow(1px 1px 10px #0000ff);
+            }
+
+            50% {
+                -webkit-filter: drop-shadow(1px 1px 10px #ff0000);
+                filter: drop-shadow(1px 1px 10px #ff0000);
+            }
+
+            100% {
+                -webkit-filter: drop-shadow(1px 1px 10px #ff0000);
+                filter: drop-shadow(1px 1px 10px #ff0000);
+            }
+        }
 
 
         /* result */
@@ -181,56 +214,56 @@
             margin-bottom: 20px;
         }
 
+        .floor {
+            background: black url('static/floor.jpg');
+        }
 
+
+        .cara_normal {
+            background: url('static/cara1a.png');
+            animation: shake 0.5s;
+            animation-iteration-count: infinite;
+        }
+
+        .cara_flipado {
+            background: url('static/cara2a.png');
+        }
+
+
+        .border {
+            background: linear-gradient(90deg, white 50%, transparent 50%), linear-gradient(90deg, white 50%, transparent 50%), linear-gradient(0deg, white 50%, transparent 50%), linear-gradient(0deg, white 50%, transparent 50%);
+            background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+            background-size: 15px 0, 15px 0, 10px 40px, 10px 40px;
+            padding: 10px;
+            animation: border-dance 4s infinite linear;
+        }
+
+        @keyframes border-dance {
+            0% {
+                background-position: 0px 0px, 300px 116px, 0px -116px, 100% 0px;
+            }
+
+            100% {
+                background-position: 300px 0px, 0px 116px, 0px 0px, 100% 150px;
+            }
+        }
 
         .shake {
-            animation: shake 0.5s;
+            animation: shake 1s;
             animation-iteration-count: infinite;
         }
 
         @keyframes shake {
             0% {
-                transform: translate(1px, 1px) rotate(0deg);
-            }
-
-            10% {
-                transform: translate(-1px, -2px) rotate(-1deg);
-            }
-
-            20% {
-                transform: translate(-3px, 0px) rotate(1deg);
-            }
-
-            30% {
-                transform: translate(3px, 2px) rotate(0deg);
-            }
-
-            40% {
-                transform: translate(1px, -1px) rotate(1deg);
+                transform: translate(0, 0) rotate(0deg);
             }
 
             50% {
-                transform: translate(-1px, 2px) rotate(-1deg);
-            }
-
-            60% {
-                transform: translate(-3px, 1px) rotate(0deg);
-            }
-
-            70% {
-                transform: translate(3px, 1px) rotate(-1deg);
-            }
-
-            80% {
-                transform: translate(-1px, -1px) rotate(1deg);
-            }
-
-            90% {
-                transform: translate(1px, 2px) rotate(0deg);
+                transform: translate(0, -5px) rotate(0deg);
             }
 
             100% {
-                transform: translate(1px, -2px) rotate(-1deg);
+                transform: translate(0, 0) rotate(0deg);
             }
         }
 
@@ -298,17 +331,15 @@
             @vivirenremoto</a>
 
         <div>
-            <h1 style="margin-bottom:0">LA RESISTENCIA</h1>
-            <h2>THE GAME</h2>
-            <button id="btn_start">START</button>
+            <button id="btn_start">JUGAR</button>
         </div>
 
     </div>
 
 
 
-    <div id="game" style="display:none;background:black url('static/floor.jpg');position:fixed;left:0;right:0;top:0;bottom:0;background-size:100%
-        auto;background-position-y:0;">
+    <div id="game" class="floor"
+        style="display:none;position:fixed;left:0;right:0;top:0;bottom:0;background-size:100% auto;background-position-y:0;">
 
 
         <!--
@@ -321,11 +352,16 @@
 
 
         <div id="time"
-            style="z-index:3;color:#ff0000;position:fixed;left:0;right:0;top:0;text-align:center;font-size:80px;">
+            style="z-index:3;color:yellow;position:fixed;left:0;right:0;top:0;text-align:center;font-size:80px;">
             1:00</div>
 
-        <div style="z-index:3;background:url('static/broncano.gif');background-size:100% auto;width:100px;height:160px;position:fixed;top:25%;background-position:center top;"
+        <div style="
+        -webkit-filter: drop-shadow(1px 1px 5px #0000ff);
+        filter: drop-shadow(1px 1px 5px #0000ff);z-index:3;background:url('static/broncano5.gif');background-size:100% auto;width:100px;height:160px;position:fixed;top:25%;background-position:center top;"
             id="rocket">
+            <div id="cara" class="cara_normal"
+                style="position:absolute;background-size:100% auto;width:80px;height:125px;margin-top:-40px;margin-left:10px;">
+            </div>
 
         </div>
 
@@ -341,7 +377,7 @@
 
 
         <div id="clouds"
-            style="display:none;opacity:0.3;z-index:2;position:fixed;width:100%;height:100%;left:0;top:0;background: url('static/clouds.png');background-size:600px auto;">
+            style="display:none;opacity:0.3;z-index:2;position:fixed;width:100%;height:100%;left:0;top:0;background: #8dc3ff url('static/clouds.png');background-size:600px auto;">
         </div>
 
 
@@ -371,15 +407,14 @@
         </div>
 
 
-
-        <div
-            style="position:fixed;left:33%;right:100%;opacity:0.35;border:1px white dashed;border-width:0 2px;top:0;bottom:0">
+        <div id="way1" style="position:fixed;left:0;width:33.9%;opacity:0.35;border-width:0 2px;top:0;bottom:0">
+        </div>
+        <div id="way2" class="border" style="position:fixed;left:33%;width:33.9%;opacity:0.35;top:0;bottom:0">
+        </div>
+        <div id="way3" style="position:fixed;right:0;width:33.9%;opacity:0.35;border-width:0 2px;top:0;bottom:0">
         </div>
 
 
-        <div
-            style="position:fixed;width:33%;right:0;opacity:0.35;border:1px white dashed;border-width:0 2px;top:0;bottom:0">
-        </div>
 
 
         <div id="btn_left" class="btn_control">
@@ -413,7 +448,8 @@
             <button onclick="location.reload();">¿REPETIR?</button>
             <button onclick="share()">COMPARTIR</button>
 
-            <button onclick="window.open('https://www.buymeacoffee.com/vivirenremoto')">APOYAME</button>
+            <!--<button onclick="window.open('https://www.buymeacoffee.com/vivirenremoto')">APOYAME</button>-->
+
 
 
 
@@ -458,7 +494,7 @@
         var coin_col1 = 1;
         var coin_col2 = 2;
         var coin_col3 = 3;
-        var star_col = 1;
+        var star_col = 2;
         var is_star = false;
         var way_width = screen_width / ways;
         var rocket_width = $('#rocket').width();
@@ -481,8 +517,6 @@
         var rocket_y = 0;
         var fuel_timer;
         var timer_coin1;
-        var timer_coin2;
-        var timer_coin3;
         var timer_star;
 
 
@@ -517,14 +551,18 @@
 
         function updateTime() {
 
+
             $('#time').html(format_time(time_left));//+ '--' + round);
+
+
 
             timer_time = setInterval(function () {
 
                 time_left--;
 
-
-                if (time_left == 0) {
+                if (time_left == 10) {
+                    $('#time').css('color', 'red');
+                } else if (time_left == 0) {
                     won = true;
 
                     endGame();
@@ -565,6 +603,13 @@
                 var top = parseInt(jQuery('#game').css('background-position-y'));
                 top += 3;
                 jQuery('#game').css('background-position-y', top);
+            }, 1);
+
+
+            setInterval(function () {
+                var top = parseInt(jQuery('#clouds').css('background-position-y'));
+                top += 1;
+                jQuery('#clouds').css('background-position-y', top);
             }, 1);
 
 
@@ -683,17 +728,9 @@
                 $('#coin1').css('top', coin_y1 + 'px');
 
 
-
-            }, 1);
-
-
-            /////////
+                //////////////////////////////////////
 
 
-
-
-
-            timer_coin2 = setInterval(function () {
 
 
 
@@ -737,20 +774,7 @@
                 $('#coin2').css('top', coin_y2 + 'px');
 
 
-
-            }, 1);
-
-
-
-            /////////
-
-
-
-
-
-            timer_coin3 = setInterval(function () {
-
-
+                /////////////////////////
 
 
 
@@ -793,13 +817,14 @@
 
 
 
+
             }, 1);
 
 
-
-
-
             /////////
+
+
+
 
 
 
@@ -842,26 +867,31 @@
 
 
 
-                if ($('#star:visible').length && star_y == rocket_bottom && star_col == rocket_col) {
+                if (!is_star && $('#star:visible').length && star_y == rocket_bottom && star_col == rocket_col) {
 
                     //won = false;
+
 
 
 
                     is_star = true;
                     sound_star.play();
 
+
+
+
                     $('#angel').show().css('top', screen_height).animate({
                         top: rocket_y - 100
                     }, 500, function () {
+                        $('#way2').animate({ opacity: 0.1 }, 500);
 
 
-
-                        $('#rocket').addClass('shake');
+                        $('#cara').removeClass('cara_normal').addClass('cara_flipado');
+                        //$('#rocket').addClass('shake');
                         $('#clouds').fadeIn('fast');
                         $('#star').hide();
 
-                        $('.coins').animate({ width: 100, height: 100, marginLeft: 50 });
+                        $('.coins').animate({ width: 70, height: 70, marginLeft: 80 });
 
                         //endGame();
 
@@ -872,10 +902,15 @@
 
                         setTimeout(function () {
 
+                            $('#way2').animate({ opacity: 0.35 }, 500);
+
+
                             music1.volume = 0.5;
                             $('#clouds').fadeOut('fast');
                             $('#angel').fadeOut('fast');
-                            $('#rocket').removeClass('shake');
+                            //$('#rocket').removeClass('shake');
+
+                            $('#cara').addClass('cara_normal').removeClass('cara_flipado');
 
                             $('.coins').animate({ width: 200, height: 200, marginLeft: 0 });
 
@@ -943,8 +978,6 @@
         function endGame() {
             clearInterval(timer_time);
             clearInterval(timer_coin1);
-            clearInterval(timer_coin2);
-            clearInterval(timer_coin3);
             clearInterval(timer_star);
 
             $('#intro').hide();
@@ -998,12 +1031,33 @@
                 playMusic1();
 
 
-                if (e.pageX < screen_width_half) {
+                /*
+                if (e.pageX > 0 && e.pageX < way_width) {
                     moveLeft();
-                } else {
+                } else if ((screen_width - way_width) > e.pageX) {
                     moveRight();
                 }
+                */
 
+            });
+
+
+            $('#way1').click(function () {
+                moveLeft();
+            });
+
+            $('#way3').click(function () {
+                moveRight();
+            });
+
+            $('#way2').click(function () {
+                if (rocket_col == 1) {
+                    moveRight();
+
+                } else if (rocket_col == 3) {
+                    moveLeft();
+
+                }
             });
 
             $("body").keydown(function (e) {
@@ -1024,7 +1078,7 @@
 
         /////////////////////////////////////////
 
-        startGame();
+        //startGame();
 
     </script>
 
