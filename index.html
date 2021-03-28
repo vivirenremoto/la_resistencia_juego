@@ -563,7 +563,7 @@
 
             setInterval(function () {
                 var top = parseInt(jQuery('#game').css('background-position-y'));
-                top += 3;
+                top -= 3;
                 jQuery('#game').css('background-position-y', top);
             }, 1);
 
