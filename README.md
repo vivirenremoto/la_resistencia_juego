@@ -1,9 +1,7 @@
-# Game - Dogecoin to the Moon
+# La Resistencia Juego
  
-[Web - Game](https://vivirenremoto.github.io/dogecoin_game/)
+[Web](https://vivirenremoto.github.io/la_resistencia_juego/)
 
 [Author](https://twitter.com/vivirenremoto)
 
-[Support me](https://www.buymeacoffee.com/vivirenremoto)
-
-![Game - Dogecoin to the Moon](https://vivirenremoto.github.io/dogecoin_game/static/social.png)
+![La Resistencia Juego](https://vivirenremoto.github.io/la_resistencia_juego/static/social.png)
