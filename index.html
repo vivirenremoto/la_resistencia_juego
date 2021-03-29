@@ -10,8 +10,10 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 
+    <script src="https://cdn.jsdelivr.net/gh/mathusummut/confetti.js/confetti.min.js"></script>
 
 
+    <link rel="prefetch" href="static/police.mp3" />
     <link rel="prefetch" href="static/music3.mp3" />
     <link rel="prefetch" href="static/star2.mp3" />
     <link rel="prefetch" href="static/money.mp3" />
@@ -24,9 +26,11 @@
     <link rel="prefetch" href="static/clouds.png" />
     <link rel="prefetch" href="static/ponce.png" />
     <link rel="prefetch" href="static/intro.png" />
-    <link rel="prefetch" href="static/moto.png" />
+    <link rel="prefetch" href="static/moto2.png" />
     <link rel="prefetch" href="static/limon.png" />
     <link rel="prefetch" href="static/angel.png" />
+    <link rel="prefetch" href="static/ricardo2.png" />
+    <link rel="prefetch" href="static/floor.jpg" />
 
 
 
@@ -93,13 +97,17 @@
             color: black;
             background: white;
             padding: 5px 30px;
-            display: inline-block;
+            display: block;
+            margin: auto;
+            width: 250px;
             font-size: 30px;
             font-weight: bold;
             border-radius: 5px;
             cursor: pointer;
+            margin-top: 20px;
             text-transform: uppercase;
         }
+
 
 
         /* intro */
@@ -189,7 +197,7 @@
         }
 
         .moto {
-            background: url('static/moto.png') !important;
+            background: url('static/moto2.png') !important;
             background-size: auto 100% !important;
             background-repeat: no-repeat !important;
             background-position: top center !important;
@@ -281,8 +289,6 @@
 
         .cara_normal {
             background: url('static/cara1a.png');
-            animation: shake 0.5s;
-            animation-iteration-count: infinite;
         }
 
         .cara_flipado {
@@ -304,6 +310,64 @@
             animation: border-dance 0.5s infinite linear;
         }
 
+
+        .shake {
+            animation: shake 0.5s;
+            animation-iteration-count: infinite;
+        }
+
+
+
+
+
+
+        @keyframes shake {
+            0% {
+                transform: translate(1px, 1px) rotate(0deg);
+            }
+
+            10% {
+                transform: translate(-1px, -2px) rotate(-1deg);
+            }
+
+            20% {
+                transform: translate(-3px, 0px) rotate(1deg);
+            }
+
+            30% {
+                transform: translate(3px, 2px) rotate(0deg);
+            }
+
+            40% {
+                transform: translate(1px, -1px) rotate(1deg);
+            }
+
+            50% {
+                transform: translate(-1px, 2px) rotate(-1deg);
+            }
+
+            60% {
+                transform: translate(-3px, 1px) rotate(0deg);
+            }
+
+            70% {
+                transform: translate(3px, 1px) rotate(-1deg);
+            }
+
+            80% {
+                transform: translate(-1px, -1px) rotate(1deg);
+            }
+
+            90% {
+                transform: translate(1px, 2px) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(1px, -2px) rotate(-1deg);
+            }
+        }
+
+
         @media screen and (min-width: 480px) {
 
             @keyframes border-dance {
@@ -316,26 +380,6 @@
                 }
             }
         }
-
-        .shake {
-            animation: shake 1s;
-            animation-iteration-count: infinite;
-        }
-
-        @keyframes shake {
-            0% {
-                transform: translate(0, 0) rotate(0deg);
-            }
-
-            50% {
-                transform: translate(0, -5px) rotate(0deg);
-            }
-
-            100% {
-                transform: translate(0, 0) rotate(0deg);
-            }
-        }
-
 
 
 
@@ -386,9 +430,6 @@
                 max-width: 100%;
             }
 
-            #result button {
-                margin-top: 20px;
-            }
 
 
             @keyframes border-dance {
@@ -414,6 +455,11 @@
 
         <div>
             <button id="btn_start">JUGAR</button>
+
+            <button onclick="share()">COMPARTIR</button>
+
+            <button onclick="window.open('https://twitter.com/vivirenremoto/status/1371856196920078342')">BUSCO
+                TRABAJO</button>
         </div>
 
     </div>
@@ -452,7 +498,7 @@
 
 
 
-            <span id="fuel">ESQUIVA LA POLICÍA</span>
+            <span id="fuel">LLEGAS TARDE AL PROGRAMA</span>
 
 
         </div>
@@ -527,10 +573,11 @@
 
             <br>
 
-            <button onclick="location.reload();">¿REPETIR?</button>
+            <button onclick="reload()">REPETIR</button>
             <button onclick="share()">COMPARTIR</button>
 
-            <!--<button onclick="window.open('https://www.buymeacoffee.com/vivirenremoto')">APOYAME</button>-->
+            <button onclick="window.open('https://twitter.com/vivirenremoto/status/1371856196920078342')">BUSCO
+                TRABAJO</button>
 
 
 
@@ -541,6 +588,10 @@
 
     <audio id="bg_music1" loop>
         <source src="static/music3.mp3" type="audio/mp3">
+    </audio>
+
+    <audio id="sound_police" loop>
+        <source src="static/police.mp3" type="audio/mp3">
     </audio>
 
     <audio id="sound_star">
@@ -603,6 +654,10 @@
         var rocket_height = $('#rocket').height();
         var star_width = $('#star').width();
         var star_height = $('#star').height();
+        var rand_moto = randomNumber(5, 15);
+        var rand_espin = 5;
+        var txt_info = '';
+        var txt_info_delay = false;
 
         var coin_x1 = 0;
         var coin_x2 = 0;
@@ -613,20 +668,20 @@
         var coin_y3 = 0;
         var star_y = 0;
         var rocket_x = 0;
-        var rocket_y = 300;
+        var rocket_y = 150;
         var fuel_timer;
         var timer_coin1;
         var timer_star;
-        var speed = 1.5;
+        var speed = 1.1;
         var diff_star = 20;
         var diff_car = 10;
+        var is_aleluya = false;
 
 
 
         if (is_mobile) {
 
             speed = 1;
-            rocket_y = 150;
         }
 
 
@@ -674,6 +729,17 @@
 
                 if (time_left == 10) {
                     $('#time').css('color', 'red');
+
+                    //txt_info_delay = true;
+
+                    $('#fuel').html('<div style="color:red;font-size:100px;"><img class="shake" src="static/ricardo2.png" width="70" height="99" class="shadow" align="absmiddle" style="margin-top:-25px;"> ¡BRONCANO!</div>');
+                    //setTimeout(function () {
+
+
+                    //txt_info_delay = false;
+                    //$('#fuel').html(txt_info);
+                    //}, 3000);
+
                 } else if (time_left == 0) {
                     won = true;
 
@@ -811,14 +877,14 @@
                     }
 
 
-                    if (round == 5) {
 
 
-                        $('.coins').addClass('car');
 
-                        $('.moto').removeClass('moto').removeClass('wheel');
-                        $('.espin').removeClass('espin');
-                    }
+
+
+
+
+
 
 
 
@@ -830,8 +896,22 @@
 
 
 
-                        if (round == 4) {
+                        $('.coins').addClass('car').removeClass('moto').removeClass('espin');
+
+
+
+
+
+
+                        if (round == rand_moto) {
                             rand = 3;
+                        } else if (round % rand_espin == 0) {
+                            rand = 3;
+                        }
+
+
+                        if (rand == 1 && is_aleluya) {
+                            rand = 2;
                         }
 
 
@@ -855,30 +935,22 @@
                             $('#coin' + rand_cols[1]).show();
 
 
-                            if (round == 4) {
-                                //var rand_cols = [1, 2, 3];
-                                //rand_cols = shuffle(rand_cols);
 
 
-                                $('.coins').removeClass('car');
-                                $('#coin' + rand_cols[0]).addClass('moto');
-                                $('#coin' + rand_cols[1]).addClass('espin');
-
+                            if (round == rand_moto) {
+                                $('#coin' + rand_cols[0]).removeClass('car').addClass('moto');
+                            } else if (round % rand_espin == 0) {
+                                $('#coin' + rand_cols[1]).removeClass('car').addClass('espin');
                             }
 
+                            is_aleluya = false;
 
 
 
-                        } /*else if (rand == 1) {
-                            var rand2 = randomNumber(1, ways);
 
-                            $('#star').hide();
-                            $('.coins').hide();
+                        } else if (rand == 1) {
+                            is_aleluya = true;
 
-
-                            $('#coin' + rand2).show();
-
-                        }*/ else if (rand == 1) {
                             $('#star').show();
                             $('.coins').show();
 
@@ -1060,8 +1132,9 @@
                     sound_espin.pause();
                     sound_star.play();
 
-                    $('#fuel').html('ESQUIVA LA POLICÍA').css('color', '#fff');
-
+                    if (!txt_info_delay) {
+                        $('#fuel').html(txt_info);
+                    }
 
                     $('#star').hide();
 
@@ -1096,7 +1169,6 @@
                             music1.volume = 0.5;
                             $('#clouds').fadeOut('fast');
                             $('#angel').fadeOut('fast');
-                            //$('#rocket').removeClass('shake');
 
                             $('#cara').addClass('cara_normal').removeClass('cara_flipado');
 
@@ -1167,17 +1239,25 @@
 
                 $('.moto').addClass('wheel');
 
+                sound_money.play();
 
 
 
-                $('#fuel').html('<span style="font-size:120px;"><img src="static/ponce.png" width="70" height="99" class="shadow" align="absmiddle" style="margin-top:-25px;"> 500€</span>').css('color', '#00ff00');
+                txt_info_delay = true;
+                $('#fuel').html('<span style="font-size:120px;color:#00ff00;"><img src="static/ponce.png" width="70" height="99" class="shadow" align="absmiddle" style="margin-top:-25px;">+500€</span>');
+
+
                 setTimeout(function () {
 
-                    $('#fuel').html('ESQUIVA LA POLICÍA').css('color', '#fff');
+                    $('.wheel').removeClass('wheel');
+
+                    txt_info_delay = false;
+
+                    $('#fuel').html(txt_info);
+
                 }, 2000);
 
 
-                sound_money.play();
 
 
             } else if (!is_espin && $(obj).hasClass('espin')) {
@@ -1186,7 +1266,7 @@
                 $('#cara').removeClass('cara_normal').addClass('cara_espin');
 
 
-                $('#fuel').html('CONTROLES INVERTIDOS').css('color', 'yellow');
+                $('#fuel').html('<span style="color:yellow">CONTROLES INVERTIDOS</span>');
 
                 $('.espin').hide();
 
@@ -1221,6 +1301,9 @@
             clearInterval(timer_coin1);
             clearInterval(timer_star);
 
+
+            sound_espin.pause();
+
             $('#intro').hide();
             $('#game').hide();
             $('#result').show();
@@ -1235,20 +1318,55 @@
                 result_title = 'HAS LLEGADO A TIEMPO';
                 result_photo = 'won.gif';
                 result_color = '#00ff00';
+                result_class = '';
+
+
+                confetti.start();
+
+                setTimeout(function () {
+                    confetti.stop();
+                }, 2000);
+
+
             } else {
+
+
+                music1.pause();
+                sound_police.play();
+
                 result_title = 'PROGRAMA CANCELADO';
                 result_photo = 'lost.jpg';
                 result_color = '#ff0000';
+                result_class = 'car';
             }
 
             $('#result_title').html(result_title).css('color', result_color);
-            $('#result_photo').attr('src', 'static/' + result_photo);
+            $('#result_photo').attr('src', 'static/' + result_photo).addClass(result_class);
         }
 
-
+        function reload() {
+            if (document.location.href.indexOf('?play') > -1) {
+                document.location.reload();
+            } else {
+                document.location = document.location + '?play';
+            }
+        }
 
         function share() {
-            window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + '&tw_p=tweetbutton&url=' + document.location.href);
+
+            var share_title = document.title;
+            var share_url = document.location.href.split('?')[0];
+
+            if (navigator.share) {
+                navigator.share({
+                    title: share_title,
+                    url: share_url
+                });
+
+            } else {
+                window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(share_title) + '&tw_p=tweetbutton&url=' + encodeURIComponent(share_url));
+            }
+
 
         }
 
@@ -1349,7 +1467,7 @@
 
         /////////////////////////////////////////
 
-        if (is_test) {
+        if (is_test || document.location.href.indexOf('?play') > -1) {
             startGame();
         }
 
