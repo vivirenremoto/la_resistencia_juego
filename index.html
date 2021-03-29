@@ -16,7 +16,7 @@
     <link rel="prefetch" href="static/police.mp3" />
     <link rel="prefetch" href="static/music3.mp3" />
     <link rel="prefetch" href="static/star2.mp3" />
-    <link rel="prefetch" href="static/money.mp3" />
+    <link rel="prefetch" href="static/money5.mp3" />
     <link rel="prefetch" href="static/espin2.mp3" />
     <link rel="prefetch" href="static/broncano5.gif" />
     <link rel="prefetch" href="static/cara1a.png" />
@@ -498,7 +498,7 @@
 
 
 
-            <span id="fuel">LLEGAS TARDE AL PROGRAMA</span>
+            <span id="fuel"></span>
 
 
         </div>
@@ -599,7 +599,7 @@
     </audio>
 
     <audio id="sound_money">
-        <source src="static/money.mp3" type="audio/mp3">
+        <source src="static/money5.mp3" type="audio/mp3">
     </audio>
 
     <audio id="sound_espin" loop>
@@ -732,7 +732,7 @@
 
                     //txt_info_delay = true;
 
-                    $('#fuel').html('<div style="color:red;font-size:100px;"><img class="shake" src="static/ricardo2.png" width="70" height="99" class="shadow" align="absmiddle" style="margin-top:-25px;"> ¡BRONCANO!</div>');
+                    $('#fuel').html('<div style="color:red;font-size:80px;"><img class="shake" src="static/ricardo2.png" width="70" height="99" class="shadow" align="absmiddle" style="margin-top:-25px;"> ¡BRONCANO!</div>');
                     //setTimeout(function () {
 
 
@@ -797,6 +797,24 @@
         }
 
         function startGame() {
+
+
+            var txt_tip = '<span style="color:yellow">¡CORRE LLEGAS TARDE!</span>';
+
+            if (is_mobile) {
+                txt_tip += '<br>MOVERTE - TOCA LA PANTALLA';
+            } else {
+                txt_tip += '<br>MOVERTE - TECLADO O RATÓN';
+            }
+
+            $('#fuel').html(txt_tip);
+
+            setTimeout(function () {
+
+                $('#fuel').html('');
+
+            }, 3000);
+
 
             $('#intro').hide();
             $('#game').show();
@@ -1139,7 +1157,7 @@
                     $('#star').hide();
 
 
-                    $('#cara').removeClass('cara_espin').addClass('cara_normal');
+                    /*$('#cara').removeClass('cara_espin').addClass('cara_normal');*/
 
 
 
@@ -1239,12 +1257,17 @@
 
                 $('.moto').addClass('wheel');
 
+
                 sound_money.play();
 
+                setTimeout(function () {
+                    txt_info_delay = true;
+                    $('#fuel').html('<span style="font-size:120px;color:#00ff00;"><img src="static/ponce.png" width="70" height="99" class="shadow" align="absmiddle" style="margin-top:-25px;">+500€</span>');
+
+                }, 700);
 
 
-                txt_info_delay = true;
-                $('#fuel').html('<span style="font-size:120px;color:#00ff00;"><img src="static/ponce.png" width="70" height="99" class="shadow" align="absmiddle" style="margin-top:-25px;">+500€</span>');
+
 
 
                 setTimeout(function () {
@@ -1260,17 +1283,34 @@
 
 
 
-            } else if (!is_espin && $(obj).hasClass('espin')) {
-                is_espin = true;
-
-                $('#cara').removeClass('cara_normal').addClass('cara_espin');
+            } else if ($(obj).hasClass('espin')) {
 
 
-                $('#fuel').html('<span style="color:yellow">CONTROLES INVERTIDOS</span>');
 
                 $('.espin').hide();
 
-                sound_espin.play();
+                if (is_espin) {
+
+                    is_espin = false;
+
+                    $('#cara').addClass('cara_normal').removeClass('cara_espin');
+
+
+                    $('#fuel').html('');
+
+                    sound_espin.pause();
+
+                } else {
+                    is_espin = true;
+
+                    $('#cara').removeClass('cara_normal').addClass('cara_espin');
+
+
+                    $('#fuel').html('<span style="color:yellow">CONTROLES INVERTIDOS</span>');
+
+
+                    sound_espin.play();
+                }
 
 
             }
