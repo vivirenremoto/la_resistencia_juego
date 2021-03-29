@@ -83,10 +83,7 @@
             font-size: 70px;
         }
 
-        h2 {
-            margin: 0;
-            font-size: 65px;
-        }
+
 
         h3 {
             margin: 0;
@@ -269,6 +266,7 @@
             bottom: 0;
             display: none;
             padding: 20px;
+            overflow-y: scroll;
         }
 
         #result h2 {
@@ -391,6 +389,7 @@
 
             button {
                 font-size: 40px;
+                width: 80%;
             }
 
             h3 {
@@ -412,7 +411,7 @@
 
             h1,
             h2 {
-                font-size: 60px;
+                font-size: 40px;
             }
 
 
@@ -569,7 +568,7 @@
         <h1 id="result_title">GAME OVER</h2>
 
 
-            <img src="static/blank.png" id="result_photo" style="max-width:100%">
+            <img src="static/blank.png" id="result_photo" style="max-width:400px">
 
             <br>
 
@@ -682,6 +681,14 @@
         if (is_mobile) {
 
             speed = 1.2;
+
+
+            if (navigator.userAgent.toLowerCase().indexOf('safari/') > -1) {
+                speed = 2;
+
+            }
+
+
         }
 
 
@@ -802,9 +809,9 @@
             var txt_tip = '<span style="color:yellow">¡CORRE LLEGAS TARDE!</span>';
 
             if (is_mobile) {
-                txt_tip += '<br>MOVERTE - TOCA LA PANTALLA';
+                txt_tip += '<br>TOCA LA PANTALLA';
             } else {
-                txt_tip += '<br>MOVERTE - TECLADO O RATÓN';
+                txt_tip += '<br>USA TECLADO O RATÓN';
             }
 
             $('#fuel').html(txt_tip);
