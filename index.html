@@ -15,10 +15,18 @@
     <link rel="prefetch" href="static/music3.mp3" />
     <link rel="prefetch" href="static/star2.mp3" />
     <link rel="prefetch" href="static/money.mp3" />
-    <link rel="prefetch" href="static/espin.mp3" />
+    <link rel="prefetch" href="static/espin2.mp3" />
     <link rel="prefetch" href="static/broncano5.gif" />
+    <link rel="prefetch" href="static/cara1a.png" />
+    <link rel="prefetch" href="static/cara2a.png" />
+    <link rel="prefetch" href="static/espin4.png" />
     <link rel="prefetch" href="static/police.png" />
     <link rel="prefetch" href="static/clouds.png" />
+    <link rel="prefetch" href="static/ponce.png" />
+    <link rel="prefetch" href="static/intro.png" />
+    <link rel="prefetch" href="static/moto.png" />
+    <link rel="prefetch" href="static/limon.png" />
+    <link rel="prefetch" href="static/angel.png" />
 
 
 
@@ -174,6 +182,12 @@
             background: url('static/star.png');
         }
 
+        .shadow {
+            -webkit-filter: drop-shadow(1px 1px 10px #000);
+            filter: drop-shadow(1px 1px 10px #000);
+
+        }
+
         .moto {
             background: url('static/moto.png') !important;
             background-size: auto 100% !important;
@@ -213,6 +227,24 @@
                 -webkit-filter: drop-shadow(1px 1px 10px #ff0000);
                 filter: drop-shadow(1px 1px 10px #ff0000);
             }
+        }
+
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(-180deg);
+            }
+        }
+
+        .wheel {
+            animation-name: spin;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            animation-duration: 2s;
         }
 
 
@@ -258,7 +290,7 @@
         }
 
         .cara_espin {
-            background: url('static/espin2.png');
+            background: url('static/espin4.png');
             height: 160px !important;
             margin-top: -60px !important;
         }
@@ -519,8 +551,8 @@
         <source src="static/money.mp3" type="audio/mp3">
     </audio>
 
-    <audio id="sound_espin">
-        <source src="static/espin.mp3" type="audio/mp3">
+    <audio id="sound_espin" loop>
+        <source src="static/espin2.mp3" type="audio/mp3">
     </audio>
 
     <script>
@@ -590,8 +622,8 @@
         var diff_car = 10;
 
 
-   
-        if( is_mobile ){
+
+        if (is_mobile) {
 
             speed = 1;
             rocket_y = 150;
@@ -725,7 +757,7 @@
 
 
 
-            
+
 
             $('#rocket').css('top', rocket_y + 'px');
             $('#angel').css('top', (rocket_y - 100) + 'px');
@@ -784,7 +816,7 @@
 
                         $('.coins').addClass('car');
 
-                        $('.moto').removeClass('moto');
+                        $('.moto').removeClass('moto').removeClass('wheel');
                         $('.espin').removeClass('espin');
                     }
 
@@ -1025,6 +1057,7 @@
 
                     is_espin = false;
                     is_star = true;
+                    sound_espin.pause();
                     sound_star.play();
 
                     $('#fuel').html('ESQUIVA LA POLICÍA').css('color', '#fff');
@@ -1132,11 +1165,12 @@
                 //alert('500€');
 
 
-                $('.moto').hide();
+                $('.moto').addClass('wheel');
 
 
 
-                $('#fuel').html('500 €').css('color', '#00ff00');
+
+                $('#fuel').html('<span style="font-size:120px;"><img src="static/ponce.png" width="70" height="99" class="shadow" align="absmiddle" style="margin-top:-25px;"> 500€</span>').css('color', '#00ff00');
                 setTimeout(function () {
 
                     $('#fuel').html('ESQUIVA LA POLICÍA').css('color', '#fff');
@@ -1152,7 +1186,7 @@
                 $('#cara').removeClass('cara_normal').addClass('cara_espin');
 
 
-                $('#fuel').html('CONTROLES INVERSOS').css('color', '#00ff00');
+                $('#fuel').html('CONTROLES INVERTIDOS').css('color', 'yellow');
 
                 $('.espin').hide();
 
