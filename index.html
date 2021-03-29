@@ -255,7 +255,7 @@
 
         /* result */
 
-        #result {
+        .result {
             color: white;
             text-align: center;
             background: black;
@@ -269,12 +269,12 @@
             overflow-y: scroll;
         }
 
-        #result h2 {
+        .result h2 {
             color: #00ff00;
             margin: 0;
             font-size: 86px;
             line-height: 87px;
-            margin-bottom: 20px;
+            margin: 0 0 20px 0;
         }
 
         .floor {
@@ -396,13 +396,17 @@
                 font-size: 30px;
             }
 
-            #result h2 {
+            .result h2 {
                 font-size: 40px;
             }
 
             .btn_control {
                 font-size: 100px;
                 display: block;
+            }
+
+            #intro div {
+                bottom: 30px;
             }
 
             /* intro */
@@ -425,7 +429,7 @@
 
             /* result */
 
-            #result {
+            .result {
                 max-width: 100%;
             }
 
@@ -564,11 +568,11 @@
 
 
 
-    <div id="result">
-        <h2 id="result_title">GAME OVER</h2>
+    <div id="result_win" class="result">
+        <h2 style="color:#00ff00;">HAS LLEGADO A TIEMPO</h2>
 
 
-        <img src="static/blank.png" id="result_photo" style="max-width:100%">
+        <img src="static/won.gif" style="max-width:100%">
 
         <br>
 
@@ -583,11 +587,55 @@
 
 
 
-        <img src="static/dibujos1.png" style="max-width:90%">
+
+        <img src="static/ricardo4.png" style="max-width:90%">
 
         <br>
 
-        <img src="static/jaime1.png" style="max-width:90%">
+        <img src="static/grisson1c.png" style="max-width:90%">
+
+        <br>
+
+
+
+        <img src="static/ponce2b.png" style="display:none;max-width:90%" id="ponce_yes">
+
+        <br>
+
+
+        <img src="static/ponce3a.jpeg" style="display:none;max-width:90%" id="ponce_no">
+
+        <br>
+        <img src="static/roberto2.png" style="max-width:90%">
+
+        <br>
+        <br>
+
+
+
+    </div>
+
+
+    <div id="result_lost" class="result">
+        <h2 style="color:#ff0000;">NO HAS LLEGADO</h2>
+
+        <img src="static/lost.jpg" class="car" style="max-width:100%">
+
+        <br>
+
+        <button onclick="reload()">REPETIR</button>
+        <button onclick="share()">COMPARTIR</button>
+
+        <button onclick="window.open('https://twitter.com/vivirenremoto/status/1371856196920078342')">BUSCO
+            TRABAJO</button>
+
+        <br>
+        <h2 style="color:white">¿Y AHORA QUÉ?</h2>
+
+
+
+
+        <img src="static/jaime1a.png" style="max-width:90%">
 
         <br>
 
@@ -599,7 +647,7 @@
         <img src="static/ricardo3a.png" style="max-width:90%">
 
         <br>
-        <img src="static/candela1.png" style="max-width:90%">
+        <img src="static/candela1a.jpeg" style="max-width:90%">
 
         <br>
 
@@ -609,11 +657,15 @@
 
         <br>
 
-        <img src="static/candela2.png" style="max-width:90%">
+        <img src="static/candela2b.png" style="max-width:90%">
 
         <br>
 
 
+        <img src="static/dibujos1.png" style="max-width:90%">
+
+        <br>
+        <br>
 
 
 
@@ -681,6 +733,7 @@
         var is_star = false;
         var is_espin = false;
         var is_moto = false;
+        var got_moto = false;
         var way_width = screen_width / ways;
         var rocket_width = $('#rocket').width();
         var coin_width = $('#coin1').width();
@@ -1295,7 +1348,9 @@
 
             } else if ($(obj).hasClass('moto')) {
                 is_moto = true;
+                got_moto = true;
                 //alert('500€');
+
 
 
                 $('.moto').addClass('wheel');
@@ -1389,7 +1444,6 @@
 
             $('#intro').hide();
             $('#game').hide();
-            $('#result').show();
 
 
 
@@ -1398,10 +1452,16 @@
             var result_color;
 
             if (won) {
-                result_title = 'HAS LLEGADO A TIEMPO';
-                result_photo = 'won.gif';
-                result_color = '#00ff00';
-                result_class = '';
+
+
+                $('#result_win').show();
+
+                if (got_moto) {
+                    $('#ponce_yes').show();
+                } else {
+                    $('#ponce_no').show();
+                }
+
 
 
                 confetti.start();
@@ -1414,17 +1474,14 @@
             } else {
 
 
+                $('#result_lost').show();
+
                 music1.pause();
                 sound_police.play();
 
-                result_title = 'BRONCANO NO LLEGA';
-                result_photo = 'lost.jpg';
-                result_color = '#ff0000';
-                result_class = 'car';
+
             }
 
-            $('#result_title').html(result_title).css('color', result_color);
-            $('#result_photo').attr('src', 'static/' + result_photo).addClass(result_class);
         }
 
         function reload() {
