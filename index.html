@@ -396,6 +396,10 @@
                 font-size: 30px;
             }
 
+            #result h2 {
+                font-size: 40px;
+            }
+
             .btn_control {
                 font-size: 100px;
                 display: block;
@@ -409,10 +413,6 @@
                 background-position: inherit;
             }
 
-            h1,
-            h2 {
-                font-size: 40px;
-            }
 
 
             /*#intro div {
@@ -565,18 +565,54 @@
 
 
     <div id="result">
-        <h1 id="result_title">GAME OVER</h2>
+        <h2 id="result_title">GAME OVER</h2>
 
 
-            <img src="static/blank.png" id="result_photo" style="max-width:400px">
+        <img src="static/blank.png" id="result_photo" style="max-width:100%">
 
-            <br>
+        <br>
 
-            <button onclick="reload()">REPETIR</button>
-            <button onclick="share()">COMPARTIR</button>
+        <button onclick="reload()">REPETIR</button>
+        <button onclick="share()">COMPARTIR</button>
 
-            <button onclick="window.open('https://twitter.com/vivirenremoto/status/1371856196920078342')">BUSCO
-                TRABAJO</button>
+        <button onclick="window.open('https://twitter.com/vivirenremoto/status/1371856196920078342')">BUSCO
+            TRABAJO</button>
+
+        <br>
+        <h2 style="color:white">¿Y AHORA QUÉ?</h2>
+
+
+
+        <img src="static/dibujos1.png" style="max-width:90%">
+
+        <br>
+
+        <img src="static/jaime1.png" style="max-width:90%">
+
+        <br>
+
+        <img src="static/ricardo1.png" style="max-width:90%">
+
+        <br>
+
+
+        <img src="static/ricardo3a.png" style="max-width:90%">
+
+        <br>
+        <img src="static/candela1.png" style="max-width:90%">
+
+        <br>
+
+
+
+        <img src="static/roberto1a.png" style="max-width:90%">
+
+        <br>
+
+        <img src="static/candela2.png" style="max-width:90%">
+
+        <br>
+
 
 
 
@@ -1381,7 +1417,7 @@
                 music1.pause();
                 sound_police.play();
 
-                result_title = 'PROGRAMA CANCELADO';
+                result_title = 'BRONCANO NO LLEGA';
                 result_photo = 'lost.jpg';
                 result_color = '#ff0000';
                 result_class = 'car';
