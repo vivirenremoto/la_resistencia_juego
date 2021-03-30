@@ -386,8 +386,8 @@
                 font-size: 20px;
             }
 
+
             button {
-                font-size: 40px;
                 width: 80%;
             }
 
@@ -397,6 +397,7 @@
 
             .result h2 {
                 font-size: 40px;
+                line-height: 40px;
             }
 
             .btn_control {
@@ -572,8 +573,7 @@
         <button onclick="window.open('https://twitter.com/vivirenremoto/status/1371856196920078342')">BUSCO
             TRABAJO</button>
 
-        <br>
-        <h2 style="color:white">¿Y AHORA QUÉ?</h2>
+        <h2 style="color:white;margin-top:20px;">¿Y AHORA QUÉ?</h2>
 
 
 
@@ -634,8 +634,7 @@
         <button onclick="window.open('https://twitter.com/vivirenremoto/status/1371856196920078342')">BUSCO
             TRABAJO</button>
 
-        <br>
-        <h2 style="color:white">¿Y AHORA QUÉ?</h2>
+        <h2 style="color:white;margin-top:20px;">¿Y AHORA QUÉ?</h2>
 
 
 
@@ -694,7 +693,7 @@
         <source src="static/music3.mp3" type="audio/mp3">
     </audio>
 
-    <audio id="sound_police" loop>
+    <audio id="sound_police">
         <source src="static/police.mp3" type="audio/mp3">
     </audio>
 
@@ -779,9 +778,11 @@
 
 
 
+
+
         if (is_mobile) {
 
-            speed = 1.2;
+            //speed = 1.2;
 
 
             if (navigator.userAgent.toLowerCase().indexOf('safari/') > -1) {
