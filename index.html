@@ -147,19 +147,7 @@
 
         /* game */
 
-        #btn_left {
-            display: none;
-            left: 0;
-            bottom: 0;
-            margin-bottom: -30px;
-        }
 
-        #btn_right {
-            display: none;
-            right: 0;
-            bottom: 0;
-            margin-bottom: -30px;
-        }
 
         .btn_control {
             display: none;
@@ -504,7 +492,7 @@
         </div>
 
         <div id="fuel_bar"
-            style="z-index:3;font-size:40px;bottom:0;position:fixed;left:0;width:100%;text-align:center;color:white;">
+            style="z-index:4;font-size:40px;bottom:0;position:fixed;left:0;width:100%;text-align:center;color:white;">
 
 
 
@@ -545,38 +533,26 @@
         </div>
 
 
-        <div id="way1" style="z-index:99;position:fixed;left:0;width:33.9%;opacity:0.35;border-width:0 2px;top:0;bottom:0">
+        <div id="way1"
+            style="z-index:99;position:fixed;left:0;width:33.9%;opacity:0.35;border-width:0 2px;top:0;bottom:0">
         </div>
-        <div id="way2" class="border" style="z-index:99;position:fixed;left:33%;width:33.9%;opacity:0.35;top:0;bottom:0">
+        <div id="way2" class="border"
+            style="z-index:99;position:fixed;left:33%;width:33.9%;opacity:0.35;top:0;bottom:0">
         </div>
-        <div id="way3" style="z-index:99;position:fixed;right:0;width:33.9%;opacity:0.35;border-width:0 2px;top:0;bottom:0">
+        <div id="way3"
+            style="z-index:99;position:fixed;right:0;width:33.9%;opacity:0.35;border-width:0 2px;top:0;bottom:0">
         </div>
+
 
 
 
-
-        <div id="btn_left" class="btn_control">
-            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-square-fill" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                    d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm9.5 8.5a.5.5 0 0 0 0-1H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5z" />
-            </svg>
-        </div>
-
-        <div id="btn_right" class="btn_control">
-            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-square-fill" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                    d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm2.5 8.5a.5.5 0 0 1 0-1h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5z" />
-            </svg>
-        </div>
 
     </div>
 
 
 
     <div id="result_win" class="result">
-        <h2 style="color:#00ff00;">HAS LLEGADO A TIEMPO</h2>
+        <h2 style="color:#00ff00;">¡HAS LLEGADO!</h2>
 
 
         <img src="static/won.gif" style="max-width:100%">
@@ -751,10 +727,8 @@
             round = 3;
         }
 
-        var score = 0;
-        var score_format;
+
         var ways = 3;
-        var fuel = 100;
         var rocket_col = 2;
         var coin_col1 = 2;
         var coin_col2 = 1;
@@ -781,14 +755,11 @@
         var coin_x2 = 0;
         var coin_x3 = 0;
         var star_x = 0;
-        var coin_y1 = 0;
-        var coin_y2 = 0;
-        var coin_y3 = 0;
+        var coin_y = 0;
         var star_y = 0;
         var rocket_x = 0;
         var rocket_y = 150;
-        var fuel_timer;
-        var timer_coin1;
+
         var timer_star;
         var speed = 1.1;
         var diff_star = 20;
@@ -997,20 +968,34 @@
 
 
 
-            timer_coin1 = setInterval(function () {
 
 
 
 
-                coin_y1 = parseInt($('#coin1').css('top'));
+
+
+
+
+            timer_star = setInterval(function () {
+
+
+
+
+
+
+
+
+
+
+                coin_y = parseInt($('#coin1').css('top'));
                 rocket_bottom = rocket_y + rocket_height;
 
 
-                coin_y1 -= speed;
+                coin_y -= speed;
 
-                if (coin_y1 < (coin_height * -1)) {
+                if (coin_y < (coin_height * -1)) {
 
-                    coin_y1 = screen_height + star_height;
+                    coin_y = screen_height + star_height;
 
                     //coin_col1 = randomNumber(1, ways);
 
@@ -1103,130 +1088,21 @@
                     }
 
 
+                    /*
+
                     coin_x1 = (way_width * (coin_col1 - 1)) + ((way_width - coin_width) / 2);
                     $('#coin1').css('left', coin_x1 + 'px');
 
-                }
-
-
-
-
-                if ($('#coin1:visible').length && won && !is_star && !is_moto && coin_col1 == rocket_col && betweenDiff(rocket_bottom, coin_y1, diff_car)) {
-
-
-
-
-                    checkItem($('#coin1'));
-
-
-
-                }
-
-
-                //$('#coin1').css('top', coin_y1 + 'px');
-
-
-                //////////////////////////////////////
-
-
-
-
-
-                coin_y2 = coin_y1;
-                coin_y3 = coin_y1;
-
-
-
-                //coin_y2 = parseInt($('#coin2').css('top'));
-                //rocket_bottom = rocket_y + rocket_height;
-
-
-                //coin_y2 -= speed;
-
-                if (coin_y2 < (coin_height * -1)) {
-                    coin_y2 = screen_height + star_height;
-
-                    //coin_col2 = randomNumber(1, ways);
-
-
-
-                    coin_x2 = (way_width * (coin_col2 - 1)) + ((way_width - coin_width) / 2);
                     $('#coin2').css('left', coin_x2 + 'px');
 
-                }
-
-
-
-
-                if ($('#coin2:visible').length && won && !is_star && !is_moto && coin_col2 == rocket_col && betweenDiff(rocket_bottom, coin_y2, diff_car)) {
-
-
-                    checkItem($('#coin2'));
-
-
-
-
-                }
-
-
-                //$('#coin2').css('top', coin_y2 + 'px');
-
-
-                /////////////////////////
-
-
-
-
-                //coin_y3 = parseInt($('#coin3').css('top'));
-                //rocket_bottom = rocket_y + rocket_height;
-
-
-                //coin_y3 -= speed;
-
-                if (coin_y3 < (coin_height * -1)) {
-                    coin_y3 = screen_height + star_height;
-
-                    //coin_col3 = randomNumber(1, ways);
-
-
-
-                    coin_x3 = (way_width * (coin_col3 - 1)) + ((way_width - coin_width) / 2);
                     $('#coin3').css('left', coin_x3 + 'px');
+                    */
 
                 }
 
 
 
 
-                if ($('#coin3:visible').length && won && !is_star && !is_moto && coin_col3 == rocket_col && betweenDiff(rocket_bottom, coin_y3, diff_car)) {
-
-
-                    checkItem($('#coin3'));
-
-
-
-                }
-
-
-                //$('#coin3 ').css('top', coin_y3 + 'px');
-
-                $('.coins').css('top', coin_y3 + 'px');
-
-
-
-            }, 1);
-
-
-            /////////
-
-
-
-
-
-
-
-
-            timer_star = setInterval(function () {
 
 
 
@@ -1266,70 +1142,88 @@
 
 
 
-                if (!is_star && !is_moto && $('#star:visible').length && won && star_col == rocket_col && betweenDiff(rocket_bottom, star_y, diff_star)) {
 
 
+                if (won && !is_star && !is_moto) {
 
+                    if ($('#coin1:visible').length && coin_col1 == rocket_col && betweenDiff(rocket_bottom, coin_y, diff_car)) {
+                        checkItem($('#coin1'));
 
-                    is_espin = false;
-                    is_star = true;
-                    sound_espin.pause();
-                    sound_star.play();
+                    } else if ($('#coin2:visible').length && coin_col2 == rocket_col && betweenDiff(rocket_bottom, coin_y, diff_car)) {
+                        checkItem($('#coin2'));
 
-                    if (!txt_info_delay) {
-                        $('#fuel').html(txt_info);
+                    } else if ($('#coin3:visible').length && coin_col3 == rocket_col && betweenDiff(rocket_bottom, coin_y, diff_car)) {
+                        checkItem($('#coin3'));
+
                     }
 
-                    $('#star').hide();
 
-
-                    /*$('#cara').removeClass('cara_espin').addClass('cara_normal');*/
-
-
-
-                    $('#angel').show().css('top', screen_height).animate({
-                        top: rocket_y - 100
-                    }, 500, function () {
-                        $('#way2').animate({ opacity: 0.1 }, 500);
-
-
-                        $('#cara').removeClass('cara_normal').removeClass('cara_espin').addClass('cara_flipado');
-
-                        $('#clouds').fadeIn('fast');
-
-                        $('.coins').animate({ width: 70, height: 70, marginLeft: 80 });
-
-
-
-                        music1.volume = 0.2;
-
-
-
-                        setTimeout(function () {
-
-                            $('#way2').animate({ opacity: 0.35 }, 500);
-
-
-                            music1.volume = 0.5;
-                            $('#clouds').fadeOut('fast');
-                            $('#angel').fadeOut('fast');
-
-                            $('#cara').addClass('cara_normal').removeClass('cara_flipado');
-
-                            $('.coins').animate({ width: 200, height: 200, marginLeft: 0 });
-
-                        }, 1300);
-
-
-
-                    });
+                    if ($('#star:visible').length && star_col == rocket_col && betweenDiff(rocket_bottom, star_y, diff_star)) {
 
 
 
 
+                        is_espin = false;
+                        is_star = true;
+                        sound_espin.pause();
+                        sound_star.play();
+
+                        if (!txt_info_delay) {
+                            $('#fuel').html(txt_info);
+                        }
+
+                        $('#star').hide();
+
+
+
+
+                        $('#angel').show().css('top', screen_height).animate({
+                            top: rocket_y - 100
+                        }, 500, function () {
+                            $('#way2').animate({ opacity: 0.1 }, 500);
+
+
+                            $('#cara').removeClass('cara_normal').removeClass('cara_espin').addClass('cara_flipado');
+
+                            $('#clouds').fadeIn('fast');
+
+                            $('.coins').animate({ width: 70, height: 70, marginLeft: 80 });
+
+
+
+                            music1.volume = 0.2;
+
+
+
+                            setTimeout(function () {
+
+                                $('#way2').animate({ opacity: 0.35 }, 500);
+
+
+                                music1.volume = 0.5;
+                                $('#clouds').fadeOut('fast');
+                                $('#angel').fadeOut('fast');
+
+                                $('#cara').addClass('cara_normal').removeClass('cara_flipado');
+
+                                $('.coins').animate({ width: 200, height: 200, marginLeft: 0 });
+
+                            }, 1300);
+
+
+
+                        });
+
+                    }
 
 
                 }
+
+
+
+                $('.coins').css('top', coin_y + 'px');
+
+
 
 
                 $('#star ').css('top', star_y + 'px');
@@ -1344,22 +1238,6 @@
         }
 
 
-        $('#btn_left').click(function () {
-            if (!is_espin) {
-                moveLeft();
-            } else {
-                moveRight();
-            }
-
-        });
-
-        $('#btn_right').click(function () {
-            if (!is_espin) {
-                moveRight();
-            } else {
-                moveLeft();
-            }
-        });
 
         function moveLeft() {
             if (is_star) return;
@@ -1379,7 +1257,6 @@
             } else if ($(obj).hasClass('moto')) {
                 is_moto = true;
                 got_moto = true;
-                //alert('500€');
 
 
 
@@ -1466,7 +1343,6 @@
 
         function endGame() {
             clearInterval(timer_time);
-            clearInterval(timer_coin1);
             clearInterval(timer_star);
 
 
