@@ -50,7 +50,14 @@
 
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QRLDQJKXVG"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
+        gtag('config', 'G-QRLDQJKXVG');
+    </script>
 
 
     <style>
@@ -734,8 +741,8 @@
 
         var ways = 3;
         var rocket_col = 2;
-        var coin_col1 = 2;
-        var coin_col2 = 1;
+        var coin_col1 = 1;
+        var coin_col2 = 2;
         var coin_col3 = 3;
         var star_col = 2;
         var is_star = false;
@@ -767,7 +774,7 @@
         var timer_star;
         var speed = 1.1;
         var diff_star = 20;
-        var diff_car = 10;
+        var diff_car = 5;
         var is_aleluya = false;
 
 
