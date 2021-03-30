@@ -282,7 +282,15 @@
 
         .floor {
             background: black url('static/floor.jpg');
+            animation: animatedBackground_floor 1s linear infinite;
+            -moz-animation: animatedBackground_floor 1s linear infinite;
+            -webkit-animation: animatedBackground_floor 1s linear infinite;
+            -ms-animation: animatedBackground_floor 1s linear infinite;
+            -o-animation: animatedBackground_floor 1s linear infinite;
         }
+
+
+
 
         .coins {
             background: url('static/police.png');
@@ -325,8 +333,25 @@
             animation-iteration-count: infinite;
         }
 
+        #clouds {
+            animation: animatedBackground_clouds 5s linear infinite;
+            -moz-animation: animatedBackground_clouds 5s linear infinite;
+            -webkit-animation: animatedBackground_clouds 5s linear infinite;
+            -ms-animation: animatedBackground_clouds 5s linear infinite;
+            -o-animation: animatedBackground_clouds 5s linear infinite;
+
+        }
 
 
+        @keyframes animatedBackground_floor {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 0 -400px;
+            }
+        }
 
 
 
@@ -376,14 +401,7 @@
             }
         }
 
-        #clouds {
-            animation: animatedBackground_clouds 5s linear infinite;
-            -moz-animation: animatedBackground_clouds 5s linear infinite;
-            -webkit-animation: animatedBackground_clouds 5s linear infinite;
-            -ms-animation: animatedBackground_clouds 5s linear infinite;
-            -o-animation: animatedBackground_clouds 5s linear infinite;
 
-        }
 
         @keyframes animatedBackground_clouds {
             0% {
@@ -509,7 +527,7 @@
 
 
     <div id="game" class="floor"
-        style="display:none;position:fixed;left:0;right:0;top:0;bottom:0;background-size:100% auto;background-position-y:0;">
+        style="display:none;position:fixed;left:0;right:0;top:0;bottom:0;background-position-y:0;">
 
 
         <!--
@@ -873,35 +891,6 @@
 
             $('#time').html(formatted_time);
 
-
-
-            timer_time = setInterval(function () {
-
-                time_left--;
-
-                if (time_left == 10) {
-                    $('#time').css('color', 'red');
-
-                    txt_info_delay = true;
-
-                    $('#fuel').html('<div style="color:red;font-size:80px;"><img class="shake" src="static/ricardo2.png" width="70" height="99" class="shadow" align="absmiddle" style="margin-top:-25px;"> ¡BRONCANO!</div>');
-
-
-                } else if (time_left == 0) {
-                    won = true;
-
-                    endGame();
-                }
-
-
-                var formatted_time = format_time(time_left);
-
-                if (is_test) formatted_time += '--' + round
-
-                $('#time').html(formatted_time);
-
-
-            }, 1000);
         }
 
 
@@ -966,12 +955,39 @@
             $('#intro').hide();
             $('#game').show();
 
-            updateTime();
 
             updateCar();
 
 
 
+
+
+
+            updateTime();
+
+            timer_time = setInterval(function () {
+
+                time_left--;
+
+                if (time_left == 10) {
+                    $('#time').css('color', 'red');
+
+                    txt_info_delay = true;
+
+                    $('#fuel').html('<div style="color:red;font-size:80px;"><img class="shake" src="static/ricardo2.png" width="70" height="99" class="shadow" align="absmiddle" style="margin-top:-25px;"> ¡BRONCANO!</div>');
+
+
+                } else if (time_left == 0) {
+                    won = true;
+
+                    endGame();
+                }
+
+
+                updateTime();
+
+
+            }, 1000);
 
 
 
@@ -1276,9 +1292,9 @@
 
 
 
-                var top = parseInt(jQuery('#game').css('background-position-y'));
-                top -= 3;
-                jQuery('#game').css('background-position-y', top);
+                //var top = parseInt(jQuery('#game').css('background-position-y'));
+                //top -= 3;
+                //jQuery('#game').css('background-position-y', top);
 
 
 
