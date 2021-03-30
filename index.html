@@ -477,9 +477,9 @@
         -->
 
 
-        <div id="time2"
+        <div id="time"
             style="z-index:3;color:yellow;position:fixed;left:0;right:0;top:0;text-align:center;font-size:80px;">
-        </div>
+            1:00</div>
 
         <div style="
         -webkit-filter: drop-shadow(1px 1px 5px #0000ff);
@@ -762,7 +762,7 @@
         var coin_y = 0;
         var star_y = 0;
         var rocket_x = 0;
-        var rocket_y = 250;
+        var rocket_y = 150;
 
         var timer_star;
         var speed = 1.1;
@@ -903,15 +903,16 @@
             var txt_tip = '<span style="color:yellow">¡LLEGAS TARDE!</span>';
 
             if (is_mobile) {
-                //txt_tip += '<br>TOCA LA PANTALLA';
+                txt_tip += '<br>TOCA LA PANTALLA';
             } else {
-                //txt_tip += '<br>USA TECLADO O RATÓN';
+                txt_tip += '<br>USA TECLADO O RATÓN';
             }
 
+            $('#fuel').html(txt_tip);
 
             setTimeout(function () {
 
-                //$('#fuel').html('');
+                $('#fuel').html('');
 
             }, 3000);
 
