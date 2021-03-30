@@ -174,6 +174,10 @@
 
         .car {
             animation: alarm 1s;
+            -moz-animation: alarm 1s;
+            -webkit-animation: alarm 1s;
+            -ms-animation: alarm 1s;
+            -o-animation: alarm 1s;
             animation-iteration-count: infinite;
 
         }
@@ -305,11 +309,19 @@
             background-size: 0 0, 0 0, 10px 40px, 10px 40px;
             padding: 10px;
             animation: border-dance 0.5s infinite linear;
+            -moz-animation: border-dance 0.5s infinite linear;
+            -webkit-animation: border-dance 0.5s infinite linear;
+            -ms-animation: border-dance 0.5s infinite linear;
+            -o-animation: border-dance 0.5s infinite linear;
         }
 
 
         .shake {
             animation: shake 0.5s;
+            -moz-animation: shake 0.5s;
+            -webkit-animation: shake 0.5s;
+            -ms-animation: shake 0.5s;
+            -o-animation: shake 0.5s;
             animation-iteration-count: infinite;
         }
 
@@ -363,6 +375,30 @@
                 transform: translate(1px, -2px) rotate(-1deg);
             }
         }
+
+        #clouds {
+            animation: animatedBackground_clouds 5s linear infinite;
+            -moz-animation: animatedBackground_clouds 5s linear infinite;
+            -webkit-animation: animatedBackground_clouds 5s linear infinite;
+            -ms-animation: animatedBackground_clouds 5s linear infinite;
+            -o-animation: animatedBackground_clouds 5s linear infinite;
+
+        }
+
+        @keyframes animatedBackground_clouds {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 0 -2000px;
+            }
+        }
+
+
+
+
+
 
 
         @media screen and (min-width: 480px) {
@@ -760,6 +796,7 @@
         var rand_espin = 5;
         var txt_info = '';
         var txt_info_delay = false;
+        //var timer_clouds;
 
         var coin_x1 = 0;
         var coin_x2 = 0;
@@ -769,6 +806,7 @@
         var star_y = 0;
         var rocket_x = 0;
         var rocket_y = 150;
+        var rocket_bottom;
 
         var timer_star;
         var speed = 1.1;
@@ -842,12 +880,7 @@
                     txt_info_delay = true;
 
                     $('#fuel').html('<div style="color:red;font-size:80px;"><img class="shake" src="static/ricardo2.png" width="70" height="99" class="shadow" align="absmiddle" style="margin-top:-25px;"> ¡BRONCANO!</div>');
-                    //setTimeout(function () {
 
-
-                    //txt_info_delay = false;
-                    //$('#fuel').html(txt_info);
-                    //}, 3000);
 
                 } else if (time_left == 0) {
                     won = true;
@@ -934,18 +967,8 @@
 
 
 
-            setInterval(function () {
-                var top = parseInt(jQuery('#game').css('background-position-y'));
-                top -= 3;//1;
-                jQuery('#game').css('background-position-y', top);
-            }, 1);
 
 
-            setInterval(function () {
-                var top = parseInt(jQuery('#clouds').css('background-position-y'));
-                top += 1;
-                jQuery('#clouds').css('background-position-y', top);
-            }, 1);
 
 
 
@@ -973,28 +996,14 @@
 
 
 
-            if (round == 3) {
+            if (is_test) {
                 $('.coins').show();
                 $('#star').show();
             }
 
 
 
-
-
-
-
-
-
-
-
             timer_star = setInterval(function () {
-
-
-
-
-
-
 
 
 
@@ -1009,7 +1018,6 @@
 
                     coin_y = screen_height + star_height;
 
-                    //coin_col1 = randomNumber(1, ways);
 
                     if (round == 2) {
                         $('#coin2').show();
@@ -1050,7 +1058,7 @@
                             rand = 3;
                         }
 
-
+                        // evitar que salga el angel dos veces seguidas
                         if (rand == 1 && is_aleluya) {
                             rand = 2;
                         }
@@ -1100,16 +1108,6 @@
                     }
 
 
-                    /*
-
-                    coin_x1 = (way_width * (coin_col1 - 1)) + ((way_width - coin_width) / 2);
-                    $('#coin1').css('left', coin_x1 + 'px');
-
-                    $('#coin2').css('left', coin_x2 + 'px');
-
-                    $('#coin3').css('left', coin_x3 + 'px');
-                    */
-
                 }
 
 
@@ -1122,7 +1120,6 @@
 
 
                 star_y = parseInt($('#star').css('top'));
-                rocket_bottom = rocket_y + rocket_height;
 
 
                 star_y -= speed;
@@ -1133,7 +1130,6 @@
                     round++;
 
                     is_star = false;
-                    //is_espin = false;
                     is_moto = false;
 
 
@@ -1158,73 +1154,96 @@
 
                 if (won && !is_star && !is_moto) {
 
-                    if ($('#coin1:visible').length && coin_col1 == rocket_col && betweenDiff(rocket_bottom, coin_y, diff_car)) {
-                        checkItem($('#coin1'));
-
-                    } else if ($('#coin2:visible').length && coin_col2 == rocket_col && betweenDiff(rocket_bottom, coin_y, diff_car)) {
-                        checkItem($('#coin2'));
-
-                    } else if ($('#coin3:visible').length && coin_col3 == rocket_col && betweenDiff(rocket_bottom, coin_y, diff_car)) {
-                        checkItem($('#coin3'));
-
-                    }
-
-
-                    if ($('#star:visible').length && star_col == rocket_col && betweenDiff(rocket_bottom, star_y, diff_star)) {
 
 
 
+                    if (star_col == rocket_col) {
 
-                        is_espin = false;
-                        is_star = true;
-                        sound_espin.pause();
-                        sound_star.play();
 
-                        if (!txt_info_delay) {
-                            $('#fuel').html(txt_info);
+                        if ($('#star:visible').length && betweenDiff(rocket_bottom, star_y, diff_star)) {
+
+
+                            is_espin = false;
+                            is_star = true;
+                            sound_espin.pause();
+                            sound_star.play();
+
+                            if (!txt_info_delay) {
+                                $('#fuel').html(txt_info);
+                            }
+
+                            $('#star').hide();
+
+
+
+                            /*
+                            timer_clouds = setInterval(function () {
+                                var top = parseInt(jQuery('#clouds').css('background-position-y'));
+                                top += 1;
+                                jQuery('#clouds').css('background-position-y', top);
+                            }, 1);
+                            */
+
+
+
+
+                            $('#angel').show().css('top', screen_height).animate({
+                                top: rocket_y - 100
+                            }, 500, function () {
+                                $('#way2').animate({ opacity: 0.1 }, 500);
+
+
+                                $('#cara').removeClass('cara_normal').removeClass('cara_espin').addClass('cara_flipado');
+
+                                $('#clouds').fadeIn('fast');
+
+                                $('.coins').animate({ width: 70, height: 70, marginLeft: 80 });
+
+
+
+                                music1.volume = 0.2;
+
+
+
+                                setTimeout(function () {
+
+                                    $('#way2').animate({ opacity: 0.35 }, 500);
+
+
+                                    music1.volume = 0.5;
+                                    $('#clouds').fadeOut('fast');
+                                    $('#angel').fadeOut('fast');
+
+                                    $('#cara').addClass('cara_normal').removeClass('cara_flipado');
+
+                                    $('.coins').animate({ width: 200, height: 200, marginLeft: 0 });
+
+                                    //clearInterval(timer_clouds);
+
+                                }, 1300);
+
+
+
+                            });
+
                         }
 
-                        $('#star').hide();
 
 
+                    } else if (coin_col1 == rocket_col) {
+                        if ($('#coin1:visible').length && betweenDiff(rocket_bottom, coin_y, diff_car)) {
+                            checkItem($('#coin1'));
+                        }
 
+                    } else if (coin_col2 == rocket_col) {
+                        if ($('#coin2:visible').length && betweenDiff(rocket_bottom, coin_y, diff_car)) {
+                            checkItem($('#coin2'));
+                        }
 
-                        $('#angel').show().css('top', screen_height).animate({
-                            top: rocket_y - 100
-                        }, 500, function () {
-                            $('#way2').animate({ opacity: 0.1 }, 500);
-
-
-                            $('#cara').removeClass('cara_normal').removeClass('cara_espin').addClass('cara_flipado');
-
-                            $('#clouds').fadeIn('fast');
-
-                            $('.coins').animate({ width: 70, height: 70, marginLeft: 80 });
-
-
-
-                            music1.volume = 0.2;
-
-
-
-                            setTimeout(function () {
-
-                                $('#way2').animate({ opacity: 0.35 }, 500);
-
-
-                                music1.volume = 0.5;
-                                $('#clouds').fadeOut('fast');
-                                $('#angel').fadeOut('fast');
-
-                                $('#cara').addClass('cara_normal').removeClass('cara_flipado');
-
-                                $('.coins').animate({ width: 200, height: 200, marginLeft: 0 });
-
-                            }, 1300);
-
-
-
-                        });
+                    } else if (coin_col3 == rocket_col) {
+                        if ($('#coin3:visible').length && betweenDiff(rocket_bottom, coin_y, diff_car)) {
+                            checkItem($('#coin3'));
+                        }
 
                     }
 
@@ -1236,9 +1255,17 @@
                 $('.coins').css('top', coin_y + 'px');
 
 
+                $('#star').css('top', star_y + 'px');
 
 
-                $('#star ').css('top', star_y + 'px');
+
+
+
+
+
+                var top = parseInt(jQuery('#game').css('background-position-y'));
+                top -= 3;
+                jQuery('#game').css('background-position-y', top);
 
 
 
@@ -1318,15 +1345,19 @@
                     sound_espin.pause();
 
                 } else {
-                    is_espin = true;
 
-                    $('#cara').removeClass('cara_normal').addClass('cara_espin');
+                    if (!txt_info_delay) {
+
+                        is_espin = true;
+
+                        $('#cara').removeClass('cara_normal').addClass('cara_espin');
 
 
-                    $('#fuel').html('<span style="color:yellow">CONTROLES INVERTIDOS</span>');
+                        $('#fuel').html('<span style="color:yellow">CONTROLES INVERTIDOS</span>');
 
 
-                    sound_espin.play();
+                        sound_espin.play();
+                    }
                 }
 
 
@@ -1356,6 +1387,7 @@
         function endGame() {
             clearInterval(timer_time);
             clearInterval(timer_star);
+
 
 
             $('.result').animate({
