@@ -805,7 +805,7 @@
         var coin_y = 0;
         var star_y = 0;
         var rocket_x = 0;
-        var rocket_y = 150;
+        var rocket_y = 250;
         var rocket_bottom;
 
         var timer_star;
@@ -813,6 +813,7 @@
         var diff_star = 20;
         var diff_car = 5;
         var is_aleluya = false;
+        var timeout_angel = 1300;
 
 
 
@@ -822,9 +823,13 @@
 
             //speed = 1.2;
 
+            rocket_y = 150;
+
+            timeout_angel = 1000;
+
 
             if (navigator.userAgent.toLowerCase().indexOf('safari/') > -1) {
-                speed = 2;
+                speed = 4;
 
             }
 
@@ -944,9 +949,9 @@
             var txt_tip = '<span style="color:yellow">¡LLEGAS TARDE!</span>';
 
             if (is_mobile) {
-                txt_tip += '<br>TOCA LA PANTALLA';
+                txt_tip += '<br>TOCA PARA MOVERTE';
             } else {
-                txt_tip += '<br>USA TECLADO O RATÓN';
+                txt_tip += '<br>USA TECLADO O RATÓN PARA MOVERTE';
             }
 
             $('#fuel').html(txt_tip);
@@ -1074,6 +1079,7 @@
 
                             var rand_cols = [1, 2, 3];
                             rand_cols = shuffle(rand_cols);
+                            rand_cols = shuffle(rand_cols);
 
 
 
@@ -1157,10 +1163,10 @@
 
 
 
-                    if (star_col == rocket_col) {
+                    if ($('#star:visible').length && star_col == rocket_col) {
 
 
-                        if ($('#star:visible').length && betweenDiff(rocket_bottom, star_y, diff_star)) {
+                        if (betweenDiff(rocket_bottom, star_y, diff_star)) {
 
 
                             is_espin = false;
@@ -1220,7 +1226,7 @@
 
                                     //clearInterval(timer_clouds);
 
-                                }, 1300);
+                                }, timeout_angel);
 
 
 
@@ -1229,6 +1235,12 @@
                         }
 
 
+
+                    } else if ($('#coin' + rocket_col + ':visible').length && betweenDiff(rocket_bottom, coin_y, diff_car)) {
+                        checkItem($('#coin' + rocket_col));
+                    }
+
+                    /*
 
                     } else if (coin_col1 == rocket_col) {
                         if ($('#coin1:visible').length && betweenDiff(rocket_bottom, coin_y, diff_car)) {
@@ -1246,6 +1258,7 @@
                         }
 
                     }
+                    */
 
 
                 }
@@ -1306,7 +1319,7 @@
 
                 setTimeout(function () {
                     txt_info_delay = true;
-                    $('#fuel').html('<span style="font-size:120px;color:#00ff00;"><img src="static/ponce.png" width="70" height="99" class="shadow" align="absmiddle" style="margin-top:-25px;">+500€</span>');
+                    $('#fuel').html('<span style="font-size:120px;color:#00ff00;"><img src="static/ponce.png" width="70" height="99" class="shadow" align="absmiddle" style="margin-top:-25px;">500€</span>');
 
                 }, 700);
 
