@@ -834,7 +834,7 @@
             timeout_angel = 1000;
 
 
-            if (navigator.userAgent.toLowerCase().indexOf('safari/') > -1) {
+            if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
                 speed = 4;
 
             }
@@ -877,7 +877,7 @@
 
             if (is_test) formatted_time += '--' + round
 
-            $('#time').html(formatted_time + '--' + speed);
+            $('#time').html(formatted_time);
 
         }
 
