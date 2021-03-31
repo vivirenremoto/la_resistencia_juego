@@ -282,11 +282,6 @@
 
         .floor {
             background: black url('static/floor.jpg');
-            animation: animatedBackground_floor 1s linear infinite;
-            -moz-animation: animatedBackground_floor 1s linear infinite;
-            -webkit-animation: animatedBackground_floor 1s linear infinite;
-            -ms-animation: animatedBackground_floor 1s linear infinite;
-            -o-animation: animatedBackground_floor 1s linear infinite;
         }
 
 
@@ -333,14 +328,6 @@
             animation-iteration-count: infinite;
         }
 
-        #clouds {
-            animation: animatedBackground_clouds 5s linear infinite;
-            -moz-animation: animatedBackground_clouds 5s linear infinite;
-            -webkit-animation: animatedBackground_clouds 5s linear infinite;
-            -ms-animation: animatedBackground_clouds 5s linear infinite;
-            -o-animation: animatedBackground_clouds 5s linear infinite;
-
-        }
 
 
         @keyframes animatedBackground_floor {
@@ -951,6 +938,23 @@
                 $('#fuel').html('');
 
             }, 3000);
+
+
+            setInterval(function () {
+                var top = parseInt(jQuery('#game').css('background-position-y'));
+                top -= 3;//1;
+                jQuery('#game').css('background-position-y', top);
+            }, 1);
+
+
+
+
+            setInterval(function () {
+                var top = parseInt(jQuery('#clouds').css('background-position-y'));
+                top += 1;
+                jQuery('#clouds').css('background-position-y', top);
+            }, 1);
+
 
 
             $('#intro').hide();
