@@ -814,8 +814,8 @@
         var coin_x2 = 0;
         var coin_x3 = 0;
         var star_x = 0;
-        var coin_y = 0;
-        var star_y = 0;
+        var coin_y = screen_height + coin_height; //0
+        var star_y = screen_height + star_height;
         var rocket_x = 0;
         var rocket_y = 250;
         var rocket_bottom;
@@ -1041,7 +1041,7 @@
 
 
 
-                coin_y = parseInt($('#coin1').css('top'));
+                ///////////coin_y = parseInt($('#coin1').css('top'));
                 rocket_bottom = rocket_y + rocket_height;
 
 
@@ -1153,7 +1153,7 @@
 
 
 
-                star_y = parseInt($('#star').css('top'));
+                //star_y = parseInt($('#star').css('top'));
 
 
                 star_y -= speed;
