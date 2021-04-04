@@ -1041,7 +1041,6 @@
 
 
 
-                ///////////coin_y = parseInt($('#coin1').css('top'));
                 rocket_bottom = rocket_y + rocket_height;
 
 
@@ -1153,9 +1152,6 @@
 
 
 
-                //star_y = parseInt($('#star').css('top'));
-
-
                 star_y -= speed;
 
                 if (star_y < (coin_height * -1)) {
@@ -1210,14 +1206,6 @@
 
 
 
-                            /*
-                            timer_clouds = setInterval(function () {
-                                var top = parseInt(jQuery('#clouds').css('background-position-y'));
-                                top += 1;
-                                jQuery('#clouds').css('background-position-y', top);
-                            }, 1);
-                            */
-
 
 
 
@@ -1268,25 +1256,7 @@
                         checkItem($('#coin' + rocket_col));
                     }
 
-                    /*
 
-                    } else if (coin_col1 == rocket_col) {
-                        if ($('#coin1:visible').length && betweenDiff(rocket_bottom, coin_y, diff_car)) {
-                            checkItem($('#coin1'));
-                        }
-
-                    } else if (coin_col2 == rocket_col) {
-                        if ($('#coin2:visible').length && betweenDiff(rocket_bottom, coin_y, diff_car)) {
-                            checkItem($('#coin2'));
-                        }
-
-                    } else if (coin_col3 == rocket_col) {
-                        if ($('#coin3:visible').length && betweenDiff(rocket_bottom, coin_y, diff_car)) {
-                            checkItem($('#coin3'));
-                        }
-
-                    }
-                    */
 
 
                 }
@@ -1302,11 +1272,6 @@
 
 
 
-
-
-                //var top = parseInt(jQuery('#game').css('background-position-y'));
-                //top -= 3;
-                //jQuery('#game').css('background-position-y', top);
 
 
 
@@ -1527,13 +1492,7 @@
                 playMusic1();
 
 
-                /*
-                if (e.pageX > 0 && e.pageX < way_width) {
-                    moveLeft();
-                } else if ((screen_width - way_width) > e.pageX) {
-                    moveRight();
-                }
-                */
+
 
             });
 
