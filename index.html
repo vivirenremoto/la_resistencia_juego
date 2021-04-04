@@ -834,6 +834,9 @@
         var is_aleluya = false;
         var timeout_angel = 1300;
 
+        var col_moto = false;
+        var col_espin = false;
+
 
 
 
@@ -1139,8 +1142,10 @@
 
                             if (round == rand_moto) {
                                 $('#coin' + rand_cols[0]).removeClass('car').addClass('moto');
+                                col_moto = rand_cols[0];
                             } else if (round % rand_espin == 0) {
                                 $('#coin' + rand_cols[1]).removeClass('car').addClass('espin');
+                                col_espin = rand_cols[1];
                             }
 
                             is_aleluya = false;
@@ -1306,9 +1311,18 @@
 
                         var coin_bottom = coin_y + coin_height;
 
+
+                        var diff_item = diff_car;
+
+                        if (round == rand_moto && rocket_col == col_moto) {
+                            diff_item = 0;
+                        } else if (round == rand_espin && rocket_col == col_espin) {
+                            diff_item = 0;
+                        }
+
                         //if (betweenDiff(rocket_bottom, coin_y, diff_car)) {
                         //if (betweenDiff(rocket_y_aux, coin_y_aux, coin_height_half)) {
-                        if (rocket_bottom >= (diff_car + coin_y) && (coin_bottom - diff_car) >= rocket_y) {
+                        if (rocket_bottom >= (diff_item + coin_y) && (coin_bottom - diff_item) >= rocket_y) {
                             checkItem($('#coin' + rocket_col));
 
                         }
