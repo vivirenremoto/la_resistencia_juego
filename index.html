@@ -22,7 +22,7 @@
     <link rel="prefetch" href="static/cara1ab.png" />
     <link rel="prefetch" href="static/cara2ab.png" />
     <link rel="prefetch" href="static/espin4a.png" />
-    <link rel="prefetch" href="static/police.png" />
+    <link rel="prefetch" href="static/police.gif" />
     <link rel="prefetch" href="static/clouds.png" />
     <link rel="prefetch" href="static/ponce.png" />
     <link rel="prefetch" href="static/intro.png" />
@@ -30,8 +30,8 @@
     <link rel="prefetch" href="static/limon.png" />
     <link rel="prefetch" href="static/angel.png" />
     <link rel="prefetch" href="static/ricardo2.png" />
-    <link rel="prefetch" href="static/floor.jpg" />
-    <link rel="prefetch" href="static/floor_desktop.png" />
+    <link rel="prefetch" href="static/floor4.png" />
+    <link rel="prefetch" href="static/floor_desktop3.png" />
 
 
 
@@ -90,6 +90,14 @@
             overflow-x: hidden;
             font-size: 70px;
         }
+
+
+        /*
+        #way2 {
+            border: 10px white dashed;
+            border-width: 0 10px;
+        }
+        */
 
 
 
@@ -173,6 +181,7 @@
             filter: drop-shadow(1px 1px 10px #00ff00);
         }
 
+        /*
         .car {
             animation: alarm 1s;
             -moz-animation: alarm 1s;
@@ -182,6 +191,7 @@
             animation-iteration-count: infinite;
 
         }
+        */
 
         .star {
             background: url('static/star.png');
@@ -282,14 +292,15 @@
         }
 
         .floor {
-            background: black url('static/floor_desktop.png');
+            background: black url('static/floor_desktop3.png');
+            background-size: 100% auto;
         }
 
 
 
 
         .coins {
-            background: url('static/police.png');
+            background: url('static/police.gif');
         }
 
         .cara_normal {
@@ -308,6 +319,7 @@
 
 
         .border {
+            /*
             background: linear-gradient(90deg, white 50%, transparent 50%), linear-gradient(90deg, white 50%, transparent 50%), linear-gradient(0deg, white 50%, transparent 50%), linear-gradient(0deg, white 50%, transparent 50%);
             background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
             background-size: 0 0, 0 0, 10px 40px, 10px 40px;
@@ -317,6 +329,7 @@
             -webkit-animation: border-dance 0.5s infinite linear;
             -ms-animation: border-dance 0.5s infinite linear;
             -o-animation: border-dance 0.5s infinite linear;
+            */
         }
 
 
@@ -427,7 +440,8 @@
 
 
             .floor {
-                background: black url('static/floor.jpg');
+                background: black url('static/floor4.png');
+                background-size: 100% auto;
             }
 
             body {
@@ -960,7 +974,7 @@
 
             timer_floor = setInterval(function () {
                 var top = parseInt(jQuery('#game').css('background-position-y'));
-                top -= 3;//1;
+                top -= 2;//1;
                 jQuery('#game').css('background-position-y', top);
             }, 1);
 
