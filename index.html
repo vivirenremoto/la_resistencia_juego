@@ -672,7 +672,7 @@
     <div id="result_lost" class="result">
         <h2 style="color:#ff0000;">NO HAS LLEGADO</h2>
 
-        <img src="static/lost.jpg" class="car" style="max-width:100%">
+        <img src="static/lost.jpg" style="max-width:100%">
 
         <br>
 
@@ -761,6 +761,8 @@
         var music_playing1 = false;
         var time_left = 60;
         var timer_time;
+        var coins_visible = [0, 1, 0, 0];
+        var star_visible = false;
 
         var won = true;
 
@@ -800,15 +802,19 @@
         var rocket_width = $('#rocket').width();
         var coin_width = $('#coin1').width();
         var coin_height = $('#coin1').height();
+        var coin_height_half = parseInt(coin_height / 2);
         var rocket_width = $('#rocket').width();
         var rocket_height = $('#rocket').height();
+        var rocket_height_half = parseInt(rocket_height / 2);
         var star_width = $('#star').width();
         var star_height = $('#star').height();
+        var star_height_half = parseInt(star_height / 2);
         var rand_moto = randomNumber(5, 15);
         var rand_espin = 5;
         var txt_info = '';
         var txt_info_delay = false;
-        //var timer_clouds;
+        var timer_clouds;
+        var timer_floor;
 
         var coin_x1 = 0;
         var coin_x2 = 0;
@@ -821,9 +827,10 @@
         var rocket_bottom;
 
         var timer_star;
-        var speed = 1.1;
-        var diff_star = 20;
-        var diff_car = 5;
+        var speed = 1.2;
+        //var diff_star = 20;
+        var diff_star = parseInt(star_height / 2);
+        var diff_car = 50;
         var is_aleluya = false;
         var timeout_angel = 1300;
 
@@ -930,12 +937,12 @@
         function startGame() {
 
 
-            var txt_tip = '<span style="color:yellow">¡LLEGAS TARDE!</span>';
+            var txt_tip = '<span style="color:yellow">¡LLEGAS TARDE!</span><br>';
 
             if (is_mobile) {
-                txt_tip += '<br>TOCA PARA MOVERTE';
+                txt_tip += 'TOCA PARA MOVERTE';
             } else {
-                txt_tip += '<br>USA TECLADO O RATÓN PARA MOVERTE';
+                txt_tip += 'TECLADO O RATÓN PARA MOVERTE';
             }
 
             $('#fuel').html(txt_tip);
@@ -947,7 +954,7 @@
             }, 3000);
 
 
-            setInterval(function () {
+            timer_floor = setInterval(function () {
                 var top = parseInt(jQuery('#game').css('background-position-y'));
                 top -= 3;//1;
                 jQuery('#game').css('background-position-y', top);
@@ -956,11 +963,6 @@
 
 
 
-            setInterval(function () {
-                var top = parseInt(jQuery('#clouds').css('background-position-y'));
-                top += 1;
-                jQuery('#clouds').css('background-position-y', top);
-            }, 1);
 
 
 
@@ -1030,8 +1032,13 @@
 
 
             if (is_test) {
-                $('.coins').show();
+                //$('.coins').show();
                 $('#star').show();
+
+
+                coins_visible = [1, 1, 1, 1];
+
+                star_visible = 1;
             }
 
 
@@ -1052,8 +1059,10 @@
 
 
                     if (round == 2) {
+                        coins_visible[2] = 1;
                         $('#coin2').show();
                     } else if (round == 3) {
+                        coins_visible[3] = 1;
                         $('#coin3').show();
                     }
 
@@ -1100,6 +1109,9 @@
 
 
 
+                            star_visible = false;
+
+
                             $('#star').hide();
                             $('.coins').hide();
 
@@ -1112,9 +1124,15 @@
 
 
 
+                            coins_visible = [0, 0, 0, 0];
+
 
                             $('#coin' + rand_cols[0]).show();
                             $('#coin' + rand_cols[1]).show();
+
+
+                            coins_visible[rand_cols[0]] = 1;
+                            coins_visible[rand_cols[1]] = 1;
 
 
 
@@ -1132,6 +1150,8 @@
 
                         } else if (rand == 1) {
                             is_aleluya = true;
+
+                            star_visible = 1;
 
                             $('#star').show();
                             $('.coins').show();
@@ -1168,6 +1188,7 @@
                     star_col = randomNumber(1, ways);
 
                     if (round >= 3) {
+                        star_visible = 1;
                         $('#star').show();
                     }
 
@@ -1187,10 +1208,24 @@
 
 
 
-                    if ($('#star:visible').length && star_col == rocket_col) {
+                    if (star_visible && star_col == rocket_col) {
 
 
-                        if (betweenDiff(rocket_bottom, star_y, diff_star)) {
+                        //var rocket_y_aux = rocket_y + rocket_height_half;
+                        //var star_y_aux = star_y = star_height_half;
+                        //if (betweenDiff(rocket_y_aux, star_y_aux, diff_star)) {
+
+
+
+
+                        var star_bottom = star_y + star_height;
+
+
+                        if (rocket_bottom >= star_y && star_bottom >= rocket_y) {
+
+
+
+                            //if (betweenDiff(rocket_bottom, star_y, diff_star)) {
 
 
                             is_espin = false;
@@ -1203,9 +1238,17 @@
                             }
 
                             $('#star').hide();
+                            star_visible = false;
 
 
 
+
+
+                            timer_clouds = setInterval(function () {
+                                var top = parseInt(jQuery('#clouds').css('background-position-y'));
+                                top += 1;
+                                jQuery('#clouds').css('background-position-y', top);
+                            }, 1);
 
 
 
@@ -1240,7 +1283,7 @@
 
                                     $('.coins').animate({ width: 200, height: 200, marginLeft: 0 });
 
-                                    //clearInterval(timer_clouds);
+                                    clearInterval(timer_clouds);
 
                                 }, timeout_angel);
 
@@ -1252,8 +1295,29 @@
 
 
 
-                    } else if ($('#coin' + rocket_col + ':visible').length && betweenDiff(rocket_bottom, coin_y, diff_car)) {
-                        checkItem($('#coin' + rocket_col));
+                    } else if (coins_visible[rocket_col]) {
+
+
+
+
+                        //var rocket_y_aux = rocket_y + rocket_height_half;
+                        //var coin_y_aux = coin_y = coin_height_half;
+
+
+                        var coin_bottom = coin_y + coin_height;
+
+                        //if (betweenDiff(rocket_bottom, coin_y, diff_car)) {
+                        //if (betweenDiff(rocket_y_aux, coin_y_aux, coin_height_half)) {
+                        if (rocket_bottom >= (diff_car + coin_y) && (coin_bottom - diff_car) >= rocket_y) {
+                            checkItem($('#coin' + rocket_col));
+
+                        }
+
+
+
+
+
+
                     }
 
 
@@ -1339,6 +1403,7 @@
 
                 $('.espin').hide();
 
+                /*
                 if (is_espin) {
 
                     is_espin = false;
@@ -1351,20 +1416,21 @@
                     sound_espin.pause();
 
                 } else {
+                    */
 
-                    if (!txt_info_delay) {
+                if (!txt_info_delay) {
 
-                        is_espin = true;
+                    is_espin = true;
 
-                        $('#cara').removeClass('cara_normal').addClass('cara_espin');
-
-
-                        $('#fuel').html('<span style="color:yellow">CONTROL INVERTIDO</span>');
+                    $('#cara').removeClass('cara_normal').addClass('cara_espin');
 
 
-                        sound_espin.play();
-                    }
+                    $('#fuel').html('<span style="color:yellow">CONTROL INVERTIDO</span>');
+
+
+                    sound_espin.play();
                 }
+                //}
 
 
             }
@@ -1393,56 +1459,69 @@
         function endGame() {
             clearInterval(timer_time);
             clearInterval(timer_star);
+            clearInterval(timer_floor);
 
 
 
-            $('.result').animate({
-                scrollTop: 0
-            }, 1);
+
 
 
 
             sound_espin.pause();
 
-            $('#intro').hide();
-            $('#game').hide();
+
+            setTimeout(function () {
+
+
+                $('.result').animate({
+                    scrollTop: 0
+                }, 1);
+
+
+                $('#intro').hide();
+                $('#game').hide();
 
 
 
-            var result_photo;
-            var result_title;
-            var result_color;
+                var result_photo;
+                var result_title;
+                var result_color;
 
-            if (won) {
+                if (won) {
 
 
-                $('#result_win').show();
+                    $('#result_win').show();
 
-                if (got_moto) {
-                    $('#ponce_yes').show();
+                    if (got_moto) {
+                        $('#ponce_yes').show();
+                    } else {
+                        $('#ponce_no').show();
+                    }
+
+
+
+                    confetti.start();
+
+                    setTimeout(function () {
+                        confetti.stop();
+                    }, 2000);
+
+
                 } else {
-                    $('#ponce_no').show();
+
+
+                    $('#result_lost').show();
+
+                    music1.pause();
+                    sound_police.play();
+
+
                 }
 
+            }, 500);
 
 
-                confetti.start();
 
-                setTimeout(function () {
-                    confetti.stop();
-                }, 2000);
-
-
-            } else {
-
-
-                $('#result_lost').show();
-
-                music1.pause();
-                sound_police.play();
-
-
-            }
 
         }
 
