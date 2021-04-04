@@ -758,6 +758,7 @@
     </audio>
 
     <script>
+        var got_item = false;
         var music_playing1 = false;
         var time_left = 60;
         var timer_time;
@@ -1186,6 +1187,7 @@
 
                     is_star = false;
                     is_moto = false;
+                    got_item = false;
 
 
                     star_y = screen_height + star_height;
@@ -1300,7 +1302,7 @@
 
 
 
-                    } else if (coins_visible[rocket_col]) {
+                    } else if (!got_item && coins_visible[rocket_col]) {
 
 
 
@@ -1323,6 +1325,8 @@
                         //if (betweenDiff(rocket_bottom, coin_y, diff_car)) {
                         //if (betweenDiff(rocket_y_aux, coin_y_aux, coin_height_half)) {
                         if (rocket_bottom >= (diff_item + coin_y) && (coin_bottom - diff_item) >= rocket_y) {
+                            got_item = true;
+
                             checkItem($('#coin' + rocket_col));
 
                         }
@@ -1417,7 +1421,7 @@
 
                 $('.espin').hide();
 
-                /*
+
                 if (is_espin) {
 
                     is_espin = false;
@@ -1430,21 +1434,21 @@
                     sound_espin.pause();
 
                 } else {
-                    */
-
-                if (!txt_info_delay) {
-
-                    is_espin = true;
-
-                    $('#cara').removeClass('cara_normal').addClass('cara_espin');
 
 
-                    $('#fuel').html('<span style="color:yellow">CONTROL INVERTIDO</span>');
+                    if (!txt_info_delay) {
+
+                        is_espin = true;
+
+                        $('#cara').removeClass('cara_normal').addClass('cara_espin');
 
 
-                    sound_espin.play();
+                        $('#fuel').html('<span style="color:yellow">CONTROL INVERTIDO</span>');
+
+
+                        sound_espin.play();
+                    }
                 }
-                //}
 
 
             }
